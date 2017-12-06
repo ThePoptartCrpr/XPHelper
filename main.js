@@ -1,7 +1,8 @@
 var xphDate = new Date();
 
 var xphSettings = {
-	testVar: "e"
+	testVar: "e",
+	colorscheme: "&e"
 }
 
 var xphDailyStats = {
