@@ -33,10 +33,29 @@ var xphDayTesting = {
 
 TriggerRegister.registerWorldLoad("func_newday");
 
+TriggerRegister.registerGameLoad("func_loadSettings");
+
 function func_newday() {
-	xphDayTesting.day = xphDate.getMonth() + " " + xphDate.getDay() + " " + xphDate.getYear();
-	ChatLib.chat(xphDayTesting.day);
-	setTimeout(function() {
-		
-	}, 4000);
+	xphDayTesting.testday = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
+	ChatLib.chat(xphDayTesting.testday);
+	new Thread(function() {
+		Thread.sleep(2000);
+		if (xphDayTesting.testday != xphDayTesting.day) {
+			xphDayTesting.day = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
+			FileLib.write("XPHelper", "Data/DayTesting.json", JSON.stringify(xphDayTesting));
+			ChatLib.chat("new day");
+		}
+	}).start();
+}
+
+function func_loadSettings() {
+	try {
+		var readFile = FileLib.read("XPHelper", "Data/DayTesting.json");
+	} catch (e) {
+		FileLib.write("XPHelper", "Data/DayTesting.json", JSON.stringify(xphDayTesting));
+	}
+
+	if (readFile) {
+		xphDayTesting = JSON.parse(readFile);
+	}
 }
