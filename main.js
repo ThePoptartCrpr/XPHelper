@@ -37,13 +37,11 @@ TriggerRegister.registerGameLoad("func_loadSettings");
 
 function func_newday() {
 	xphDayTesting.testday = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
-	ChatLib.chat(xphDayTesting.testday);
 	new Thread(function() {
 		Thread.sleep(2000);
 		if (xphDayTesting.testday != xphDayTesting.day) {
 			xphDayTesting.day = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
 			FileLib.write("XPHelper", "Data/DayTesting.json", JSON.stringify(xphDayTesting));
-			ChatLib.chat("new day");
 		}
 	}).start();
 }
