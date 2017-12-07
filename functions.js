@@ -1,5 +1,4 @@
-var br = "&m" + ChatLib.getChatBreak("-");
-var xphBreak = "&e" + br;
+var xphBreak = xphSettings.colorscheme + "&m" + br();
 
 function br() {
 	if (!arguments[0]) {
