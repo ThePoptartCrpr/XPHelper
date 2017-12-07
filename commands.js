@@ -5,9 +5,9 @@ function command_xph() {
 		case "gui": xphOpenGui();
 	}*/
 	if (!arguments[0]) {
-		chat(xphBreak);
-		chat(center("&aXP&bHelper"));
-		chat();
-		chat(xphBreak);
+		xphChat(xphBreak);
+		xphChat(xphCenter("&aXP&bHelper"));
+		xphChat();
+		xphChat(xphBreak);
 	}
 }

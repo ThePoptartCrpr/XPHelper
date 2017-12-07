@@ -9,11 +9,11 @@ function br() {
 	}
 }
 
-function center(text) {
+function xphCenter(text) {
 	return ChatLib.getCenteredText(text);
 }
 
-function chat(text) {
+function xphChat(text) {
 	if (!arguments[0]) {
 		return ChatLib.chat("");
 	}
