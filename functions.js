@@ -1,4 +1,4 @@
-var xphBreak = xphSettings.colorscheme + "&m" + br();
+var xphBreak;
 
 function br() {
 	if (!arguments[0]) {

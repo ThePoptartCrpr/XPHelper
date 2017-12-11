@@ -2,7 +2,10 @@ var xphDate = new Date();
 
 var xphSettings = {
 	testVar: "e",
-	colorscheme: "&e"
+	colorscheme: "&e",
+	deliveryman: {
+		autoOpen: "true"
+	}
 }
 
 var xphDailyStats = {
@@ -33,6 +36,7 @@ var xphDayTesting = {
 }
 
 TriggerRegister.registerWorldLoad("func_newday");
+TriggerRegister.registerWorldLoad("func_initializeVars");
 
 TriggerRegister.registerGameLoad("func_loadSettings");
 
@@ -47,14 +51,28 @@ function func_newday() {
 	}).start();
 }
 
+function func_initializeVars() {
+	xphBreak = "&e&m" + br();
+}
+
 function func_loadSettings() {
 	try {
-		var readFile = FileLib.read("XPHelper", "Data/DayTesting.json");
+		var dayFile = FileLib.read("XPHelper", "Data/daytesting.json");
 	} catch (e) {
-		FileLib.write("XPHelper", "Data/DayTesting.json", JSON.stringify(xphDayTesting));
+		FileLib.write("XPHelper", "Data/daytesting.json", JSON.stringify(xphDayTesting));
 	}
 
-	if (readFile) {
-		xphDayTesting = JSON.parse(readFile);
+	if (dayFile) {
+		xphDayTesting = JSON.parse(dayFile);
+	}
+	
+	try {
+		var settingsFile = FileLib.read("XPHelper", "Data/settings.json");
+	} catch (e) {
+		FileLib.write("XPHelper", "Data/settings.json", JSON.stringify(xphSettings));
+	}
+	
+	if (settingsFile) {
+		xphSettings = JSON.parse(settingsFile);
 	}
 }
