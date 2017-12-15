@@ -18,3 +18,46 @@ function xphChat(text) {
 	}
 	return ChatLib.chat(text);
 }
+
+//Settings Tools - Written by SylentButDedly
+
+function xphSaveSettings(json, fileLocaton, fileName) {
+  /***
+  json: the settings json you want saved.
+  fileLocation: the folder in which the file will be saved to.
+  fileName: the name of the file, must also include ".json" at the end.
+
+  Usage:
+  saveSettings(yourSettings, folderName, fileName);
+  ***/
+  FileLib.write(fileLocation, fileName, JSON.stringify(json));
+}
+
+function xphLoadSettings(json, fileLocation, fileName) {
+  /***
+  json: the settings json you want saved.
+  fileLocation: the folder in which the file will be saved to.
+  fileName: the name of the file, must also include ".json" at the end.
+
+  Usage:
+  yourSettings = loadSettings(yourSettings, folderName, fileName);
+  ***/
+  var tempSettings = JSON.parse(FileLib.read(fileLocation, fileName));
+
+  if (tempSettings != null && tempSettings != "" && tempSettings != undefined) {
+  //////////////////////////////////////////////////////////////////
+    for (x in json) {
+      for (y in tempSettings) {
+        //Debug: print("x: " + x + " = " + json[x] + "   Y: " + y + " = " + tempSettings[y])
+        if (x == y) {
+          json[x] = tempSettings[y];
+          //Debug: print("Works: new json[x] = " + json[x]);
+          break;
+        }
+
+      }
+    }
+  //////////////////////////////////////////////////////////////////
+  }
+  return json;
+}

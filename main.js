@@ -1,6 +1,7 @@
 var xphDate = new Date();
 
 var xphSettings = {
+	test: "a",
 	testVar: "e",
 	colorscheme: "&e",
 	deliveryman: {
@@ -39,6 +40,7 @@ TriggerRegister.registerWorldLoad("func_newday");
 TriggerRegister.registerWorldLoad("func_initializeVars");
 
 TriggerRegister.registerGameLoad("func_loadSettings");
+TriggerRegister.registerGameUnload("func_saveSettings");
 
 function func_newday() {
 	xphDayTesting.testday = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
@@ -63,7 +65,7 @@ function func_loadSettings() {
 	}
 
 	if (dayFile) {
-		xphDayTesting = JSON.parse(dayFile);
+		xphDayTesting = xphLoadSettings(xphDayTesting, "XPHelper", "Data/daytesting.json");
 	}
 	
 	try {
@@ -73,6 +75,10 @@ function func_loadSettings() {
 	}
 	
 	if (settingsFile) {
-		xphSettings = JSON.parse(settingsFile);
+		xphSettings = xphLoadSettings(xphSettings, "XPHelper", "Data/settings.json");
 	}
+}
+
+function func_saveSettings() {
+	FileLib.write("XPHelper", "Data/settings.json", JSON.stringify(xphSettings));
 }

@@ -11,10 +11,10 @@ function xphOpenGui() {
 	xphTestSelector = new xphSelector("Test Selector", xphSettings.testVar);
 	
 	xphGui.open();
-	ChatLib.chat(xphSettings.testVar);
+	ChatLib.chat(JSON.stringify(xphSettings));
 }
 
-function ircSaveSettings() {
+function xphSaveSettings() {
   FileLib.write("XPHelper/Data", "settings.json", JSON.stringify(xphSettings));
 }
 
@@ -68,6 +68,8 @@ function xphGuiDraw(mouseX, mouseY) {
     y,
     0xffffffff
   );
+  
+  ChatLib.chat(testVarExample);
 
   xphUpdateSettings();
 }
@@ -82,7 +84,7 @@ function xphUpdateSettings() {
   }
 
   if (updateSettings) {
-    ircSaveSettings();
+    xphSaveSettings();
   }
 }
 
@@ -172,7 +174,7 @@ function xphSelector(text, selected) {
   this.click = function() {
     for (var i = 0; i < 16; i++) {
       if (i == this.hovered) {
-        // this.selected = this.hovered;
+        this.selected = this.hovered;
       }
     }
   }
