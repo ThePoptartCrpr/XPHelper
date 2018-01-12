@@ -1,5 +1,7 @@
+// I'm absolute trash at GUIs so credit for most of the base code goes to FalseHonesty and kerbybit
+
 var xphGui = new Gui();
-var xphGuiScrolled = 0;
+var xphScrolled = 0;
 
 var xphTestSelector;
 
@@ -12,7 +14,8 @@ xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
 	// xphTestSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
-	
+	xphTestColorSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
+
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
 }
@@ -24,18 +27,19 @@ function xphSaveSettings() {
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
 		// xphTestSelector.click();
+		xphTestColorSelector.click();
 	}
-	
+
 	if (button == -1) {
 		xphScrolled -= 10;
 	} else if (button == -2) {
 		xphScrolled += 10;
 	}
-	
+
 	if (xphScrolled < 0) {
 		xphScrolled = 0;
 	}
-	
+
 	if (xphScrolled > 300 - RenderLib.getRenderHeight()) {
 		xphScrolled = 300 - RenderLib.getRenderHeight();
 	}
@@ -44,26 +48,27 @@ function xphGuiClicked(mouseX, mouseY, button) {
 function xphGuiStep() {
   if (xphGui.isOpen()) {
     // xphTestSelector.update();
+		xphTestColorSelector.update();
   }
 }
 
 function xphGuiDraw(mouseX, mouseY) {
-	
+
   // setup
   if (RenderLib.getRenderHeight() > 300) {
 	  xphScrolled = 0;
   }
-  
+
   var y = 20 - ircScrolled;
   var x = RenderLib.getRenderWidth() / 2;
-  
+
   titleString = "&aXP&bHelper";
-  
+
   titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(titleString));
 
   // draw background
   RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
-  
+
   // draw examples
   RenderLib.drawStringWithShadow(
 	ChatLib.addColor(titleString),
@@ -72,13 +77,15 @@ function xphGuiDraw(mouseX, mouseY) {
     0xffffffff
   );
 
+	xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
+
   xphUpdateSettings();
 }
 
 function xphUpdateSettings() {
-  /*var updateSettings = false;
+  var updateSettings = false;
 
-  var getSetting = xphTestSelector.getSelected();
+  var getSetting = xphTestColorSelector.getSelected();
   if (xphSettings.testVar != getSetting) {
     xphSettings.testVar = getSetting;
     updateSettings = true;
@@ -86,14 +93,14 @@ function xphUpdateSettings() {
 
   if (updateSettings) {
     xphSaveSettings();
-  }*/
+  }
 }
 
 // Selectors
 
 function xphOnOffToggleSelector(text, variable) {
 	this.text = text;
-	
+
 	this.x = 0;
 	this.y = 0;
 	this.mouseX = 0;
@@ -101,11 +108,11 @@ function xphOnOffToggleSelector(text, variable) {
 }
 
 function xphSliderSelector(text, variable, min, max) {
-	
+
 }
 
 function xphIntIncrementSelector(text, variable, min, max) {
-	
+
 }
 
 function xphColorSelector(text, variable) {
@@ -207,7 +214,7 @@ function xphColorSelector(text, variable) {
 // Buttons
 
 function xphButtonSelector(text, page) {
-	
+
 }
 
 /*function xphSelector(text, selected) {
