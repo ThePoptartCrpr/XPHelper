@@ -67,13 +67,13 @@ function func_loadSettings() {
 	if (dayFile) {
 		xphDayTesting = xphLoadSettings(xphDayTesting, "XPHelper", "Data/daytesting.json");
 	}
-	
+
 	try {
 		var settingsFile = FileLib.read("XPHelper", "Data/settings.json");
 	} catch (e) {
 		FileLib.write("XPHelper", "Data/settings.json", JSON.stringify(xphSettings));
 	}
-	
+
 	if (settingsFile) {
 		xphSettings = xphLoadSettings(xphSettings, "XPHelper", "Data/settings.json");
 	}
