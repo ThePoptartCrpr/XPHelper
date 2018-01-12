@@ -3,12 +3,15 @@ var xphGuiScrolled = 0;
 
 var xphTestSelector;
 
+var titleString;
+var titleWidth;
+
 xphGui.registerClicked("xphGuiClicked");
 TriggerRegister.registerStep("xphGuiStep");
 xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
-	xphTestSelector = new xphSelector("Test Selector", xphSettings.testVar);
+	// xphTestSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
 	
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -20,7 +23,7 @@ function xphSaveSettings() {
 
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
-		xphTestSelector.click();
+		// xphTestSelector.click();
 	}
 	
 	if (button == -1) {
@@ -40,7 +43,7 @@ function xphGuiClicked(mouseX, mouseY, button) {
 
 function xphGuiStep() {
   if (xphGui.isOpen()) {
-    xphTestSelector.update();
+    // xphTestSelector.update();
   }
 }
 
@@ -53,29 +56,27 @@ function xphGuiDraw(mouseX, mouseY) {
   
   var y = 20 - ircScrolled;
   var x = RenderLib.getRenderWidth() / 2;
-
-  var testVarExample = xphSettings.testVar;
-
-  var testVarExampleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(testVarExample));
+  
+  titleString = "&aXP&bHelper";
+  
+  titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(titleString));
 
   // draw background
   RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
   
   // draw examples
   RenderLib.drawStringWithShadow(
-    testVarExample,
-    x - testVarExampleWidth / 2,
+	ChatLib.addColor(titleString),
+	x - titleWidth / 2,
     y,
     0xffffffff
   );
-  
-  ChatLib.chat(testVarExample);
 
   xphUpdateSettings();
 }
 
 function xphUpdateSettings() {
-  var updateSettings = false;
+  /*var updateSettings = false;
 
   var getSetting = xphTestSelector.getSelected();
   if (xphSettings.testVar != getSetting) {
@@ -85,10 +86,131 @@ function xphUpdateSettings() {
 
   if (updateSettings) {
     xphSaveSettings();
+  }*/
+}
+
+// Selectors
+
+function xphOnOffToggleSelector(text, variable) {
+	this.text = text;
+	
+	this.x = 0;
+	this.y = 0;
+	this.mouseX = 0;
+	this.mouseY = 0;
+}
+
+function xphSliderSelector(text, variable, min, max) {
+	
+}
+
+function xphIntIncrementSelector(text, variable, min, max) {
+	
+}
+
+function xphColorSelector(text, variable) {
+  this.text = text;
+
+  this.x = 0;
+  this.y = 0;
+  this.mouseX = 0;
+  this.mouseY = 0;
+
+  this.hovered = -1;
+  this.xOffsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  this.zOffsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  this.selected = parseInt("0x" + variable.replace("&", ""));
+
+  this.update = function() {
+    for (var i = 0; i < 16; i++) {
+      if (i == this.selected) {
+        this.xOffsets[i] = easeOut(this.xOffsets[i], 0, 5, 0.1);
+        this.zOffsets[i] = easeOut(this.zOffsets[i], 0, 5, 0.1);
+      } else if (i < this.selected) {
+        this.xOffsets[i] = easeOut(this.xOffsets[i], -10, 5, 0.1);
+        this.zOffsets[i] = easeOut(this.zOffsets[i], 10, 5, 0.1);
+      } else {
+        this.xOffsets[i] = easeOut(this.xOffsets[i], 10, 5, 0.1);
+        this.zOffsets[i] = easeOut(this.zOffsets[i], 10, 5, 0.1);
+      }
+    }
+  }
+
+  this.draw = function(x, y, mouseX, mouseY) {
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
+    this.x = x;
+    this.y = y;
+
+    this.hover();
+
+    RenderLib.drawStringWithShadow(
+      text,
+      this.x - RenderLib.getStringWidth(text) / 2,
+      y,
+      0xffffffff
+    );
+
+    for (var i = 0; i < 16; i++) {
+      RenderLib.drawRectangle(
+        RenderLib.getColor(i),
+        this.x - 160 + i * 20 + this.xOffsets[i] + Math.abs(this.xOffsets[i] / 2),
+        this.y + 10 + Math.abs(this.zOffsets[i] / 2),
+        30 - this.zOffsets[i],
+        30 - this.zOffsets[i]
+      );
+    }
+
+    for (var i = 0; i < 16; i++) {
+      if (i == this.selected) {
+        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 40, 34, 2);
+        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 8, 2, 34);
+        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 8, 34, 2);
+        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 130 + i * 20, this.y + 8, 2, 34);
+      }
+    }
+  }
+
+  this.hover = function() {
+    var isHovered = false;
+    for (var i = 0; i < 16; i++) {
+      var x1 = this.x - 160 + i * 20 + this.xOffsets[i] + Math.abs(this.xOffsets[i] / 2);
+      var x2 = x1 + (30 - Math.abs(this.xOffsets[i]));
+      var y1 = this.y + 10 + this.zOffsets[i] / 2;
+      var y2 = y1 + (30 - this.zOffsets[i])
+
+      if (this.mouseX > x1 && this.mouseX < x2
+      && this.mouseY > y1 && this.mouseY < y2) {
+        this.hovered = i;
+        isHovered = true;
+      }
+    }
+    if (!isHovered) {
+      this.hovered = -1;
+    }
+  }
+
+  this.click = function() {
+    for (var i = 0; i < 16; i++) {
+      if (i == this.hovered) {
+        this.selected = this.hovered;
+      }
+    }
+  }
+
+  this.getSelected = function() {
+    return "&" + this.selected.toString(16).toLowerCase();
   }
 }
 
-function xphSelector(text, selected) {
+// Buttons
+
+function xphButtonSelector(text, page) {
+	
+}
+
+/*function xphSelector(text, selected) {
   this.text = text;
 
   this.x = 0;
@@ -182,7 +304,7 @@ function xphSelector(text, selected) {
   this.getSelected = function() {
     return this.selected;
   }
-}
+}*/
 
 /*
 function ircOpenGui() {
