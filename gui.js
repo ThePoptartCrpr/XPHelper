@@ -81,7 +81,7 @@ function xphGuiDraw(mouseX, mouseY) {
   );
 
 	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
-	xphDeliveryOpenToggle.draw(x, y + 80, mouseX, mouseY);
+	xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
 
   xphUpdateSettings();
 }
@@ -188,12 +188,12 @@ function xphOnOffToggleSelector(text, variable) {
 	this.hover = function() {
 		var isHovered = false;
 
-		var truex1 = 207;
-		var truex2 = 234;
-		var y1 = 115;
-		var y2 = 134;
-		var falsex1 = 248;
-		var falsex2 = 273;
+		var truex1 = this.x - (RenderLib.getStringWidth("Off") / 2) - 24;
+		var truex2 = truex1 + RenderLib.getStringWidth("Off") + 10;
+		var falsex1 = this.x - (RenderLib.getStringWidth("Off") / 2) + 16;
+		var falsex2 = falsex1 + RenderLib.getStringWidth("Off") + 10;
+		var y1 = this.y + 20 - (9 / 2);
+		var y2 = y1 + 19;
 
 		if (this.mouseX > truex1 && this.mouseX < truex2
 		&& this.mouseY > y1 && this.mouseY < y2) {
