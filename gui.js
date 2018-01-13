@@ -14,10 +14,8 @@ xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
 	// xphTestSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
-	xphTestColorSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
+	// xphTestColorSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", xphSettings.deliveryman.autoOpen);
-
-	// xphSettings.deliveryman.autoOpen = false;
 
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -30,7 +28,7 @@ function xphSaveSettings() {
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
 		// xphTestSelector.click();
-		xphTestColorSelector.click();
+		// xphTestColorSelector.click();
 		xphDeliveryOpenToggle.click();
 	}
 
@@ -52,7 +50,7 @@ function xphGuiClicked(mouseX, mouseY, button) {
 function xphGuiStep() {
   if (xphGui.isOpen()) {
     // xphTestSelector.update();
-		xphTestColorSelector.update();
+		// xphTestColorSelector.update();
 		xphDeliveryOpenToggle.update();
   }
 }
@@ -82,7 +80,7 @@ function xphGuiDraw(mouseX, mouseY) {
     0xffffffff
   );
 
-	xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
+	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
 	xphDeliveryOpenToggle.draw(x, y + 80, mouseX, mouseY);
 
   xphUpdateSettings();
@@ -91,16 +89,15 @@ function xphGuiDraw(mouseX, mouseY) {
 function xphUpdateSettings() {
   var updateSettings = false;
 
-  var getSetting = xphTestColorSelector.getSelected();
+  /*var getSetting = xphTestColorSelector.getSelected();
   if (xphSettings.testVar != getSetting) {
     xphSettings.testVar = getSetting;
     updateSettings = true;
-  }
+  }*/
 
 	var getSetting = xphDeliveryOpenToggle.getSelected();
 	if (xphSettings.deliveryman.autoOpen != getSetting) {
 		xphSettings.deliveryman.autoOpen = getSetting;
-		// ChatLib.chat(getSetting + "e")
 		updateSettings = true;
 	}
 
@@ -120,7 +117,6 @@ function xphOnOffToggleSelector(text, variable) {
 	this.mouseY = 0;
 
 	this.hovered = -1;
-	// variable = false;
 	this.selected = JSON.parse(JSON.stringify(variable));
 
 	this.update = function() {
@@ -133,8 +129,6 @@ function xphOnOffToggleSelector(text, variable) {
 		this.x = x;
 		this.y = y;
 
-		// ChatLib.chat(this.selected);
-
 		this.hover();
 
 		RenderLib.drawStringWithShadow(
@@ -144,67 +138,50 @@ function xphOnOffToggleSelector(text, variable) {
 			0xffffffff
 		);
 
+		var greenColorSelected = RenderLib.GREEN;
+		var greenColorHovered = RenderLib.color(85, 255, 85, 150);
+		var redColorSelected = RenderLib.RED;
+		var redColorHovered = RenderLib.color(255, 85, 85, 150);
+
+		var greenColor;
+		var redColor;
 		if (this.selected == true) {
-			RenderLib.drawRectangle(
-				RenderLib.GREEN,
-				this.x - (RenderLib.getStringWidth("Off") / 2) - 24,
-				this.y + 20 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 10,
-				19
-			)
-
-			RenderLib.drawStringWithShadow(
-				"On",
-				this.x - (RenderLib.getStringWidth("On") / 2) - 19,
-				this.y + 20,
-				0xffffffff
-			)
-
-			RenderLib.drawRectangle(
-				RenderLib.color(255, 85, 85, 150),
-				this.x - (RenderLib.getStringWidth("Off") / 2) + 16,
-				this.y + 20 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 10,
-				19
-			)
-
-			RenderLib.drawStringWithShadow(
-				"Off",
-				this.x - (RenderLib.getStringWidth("Off") / 2) + 21,
-				this.y + 20,
-				0xffffffff
-			)
+			greenColor = greenColorSelected;
+			redColor = redColorHovered;
 		} else {
-			RenderLib.drawRectangle(
-				RenderLib.color(85, 255, 85, 150),
-				this.x - (RenderLib.getStringWidth("Off") / 2) - 24,
-				this.y + 20 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 10,
-				19
-			)
-
-			RenderLib.drawStringWithShadow(
-				"On",
-				this.x - (RenderLib.getStringWidth("On") / 2) - 19,
-				this.y + 20,
-				0xffffffff
-			)
-
-			RenderLib.drawRectangle(
-				RenderLib.RED,
-				this.x - (RenderLib.getStringWidth("Off") / 2) + 16,
-				this.y + 20 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 10,
-				19
-			)
-
-			RenderLib.drawStringWithShadow(
-				"Off",
-				this.x - (RenderLib.getStringWidth("Off") / 2) + 21,
-				this.y + 20,
-				0xffffffff
-			)
+			greenColor = greenColorHovered
+			redColor = redColorSelected;
 		}
+
+		RenderLib.drawRectangle(
+			greenColor,
+			this.x - (RenderLib.getStringWidth("Off") / 2) - 24,
+			this.y + 20 - (9 / 2),
+			RenderLib.getStringWidth("Off") + 10,
+			19
+		)
+
+		RenderLib.drawStringWithShadow(
+			"On",
+			this.x - (RenderLib.getStringWidth("On") / 2) - 19,
+			this.y + 20,
+			0xffffffff
+		)
+
+		RenderLib.drawRectangle(
+			redColor,
+			this.x - (RenderLib.getStringWidth("Off") / 2) + 16,
+			this.y + 20 - (9 / 2),
+			RenderLib.getStringWidth("Off") + 10,
+			19
+		)
+
+		RenderLib.drawStringWithShadow(
+			"Off",
+			this.x - (RenderLib.getStringWidth("Off") / 2) + 21,
+			this.y + 20,
+			0xffffffff
+		)
 
 	}
 
