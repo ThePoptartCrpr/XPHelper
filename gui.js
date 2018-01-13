@@ -138,19 +138,49 @@ function xphOnOffToggleSelector(text, variable) {
 			0xffffffff
 		);
 
-		var greenColorSelected = RenderLib.GREEN;
+		var greenColorDeselected = RenderLib.color(85, 255, 85, 100);
 		var greenColorHovered = RenderLib.color(85, 255, 85, 150);
-		var redColorSelected = RenderLib.RED;
+		var greenColorSelected = RenderLib.GREEN;
+
+		var redColorDeselected = RenderLib.color(255, 85, 85, 100);
 		var redColorHovered = RenderLib.color(255, 85, 85, 150);
+		var redColorSelected = RenderLib.RED;
 
 		var greenColor;
 		var redColor;
+
 		if (this.selected == true) {
 			greenColor = greenColorSelected;
-			redColor = redColorHovered;
+			if (this.hovered == 0) {
+				redColor = redColorHovered;
+			} else {
+				redColor = redColorDeselected;
+			}
 		} else {
-			greenColor = greenColorHovered
 			redColor = redColorSelected;
+			if (this.hovered == 1) {
+				greenColor = greenColorHovered;
+			} else {
+				greenColor = greenColorDeselected;
+			}
+		}
+
+		if (this.selected == true) {
+			RenderLib.drawRectangle(
+				RenderLib.WHITE,
+				this.x - (RenderLib.getStringWidth("Off") / 2) - 25,
+				this.y + 19 - (9 / 2),
+				RenderLib.getStringWidth("Off") + 12,
+				21
+			)
+		} else {
+			RenderLib.drawRectangle(
+				RenderLib.WHITE,
+				this.x - (RenderLib.getStringWidth("Off") / 2) + 15,
+				this.y + 19 - (9 / 2),
+				RenderLib.getStringWidth("Off") + 12,
+				21
+			)
 		}
 
 		RenderLib.drawRectangle(
