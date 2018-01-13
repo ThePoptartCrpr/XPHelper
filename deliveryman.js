@@ -13,9 +13,16 @@ TriggerRegister.registerChat("openVoteLink").setChatCriteria("&aToday's voting l
 TriggerRegister.registerChat("openRewardLink").setChatCriteria("\n&r&6Click the link to visit our website and claim your reward: &r&b${URL}&r\n&r");
 
 function openVoteLink(URL) {
-	java.awt.Desktop.getDesktop().browse(new java.net.URI("http://" + URL));
+	// ChatLib.chat(xphSetting.deliveryman.autoOpen);
+	if (xphSettings.deliveryman.autoOpen == true) {
+		ChatLib.chat("&aAutomatically opening the voting link.");
+		java.awt.Desktop.getDesktop().browse(new java.net.URI("http://" + URL));
+	}
 }
 
 function openRewardLink(URL) {
-	java.awt.Desktop.getDesktop().browse(new java.net.URI(URL));
+	if (xphSettings.deliveryman.autoOpen == true) {
+		ChatLib.chat("&aAutomatically opening the reward link.");
+		java.awt.Desktop.getDesktop().browse(new java.net.URI(URL));
+	}
 }
