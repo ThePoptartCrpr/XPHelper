@@ -8,18 +8,28 @@ var xphTestSelector;
 var titleString;
 var titleWidth;
 
+var xphCurrentMenu;
+
 xphGui.registerClicked("xphGuiClicked");
 TriggerRegister.registerStep("xphGuiStep");
 xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
+
 	xphDeliveryManMenu = new xphGuiMenu("&6Delivery Man");
+
+	xphMainMenu = new xphGuiMenu("&aXP&bHelper");
 
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", xphSettings.deliveryman.autoOpen);
 	xphTestSetting = new xphColorSelector("Test", xphSettings.testVar);
 
+	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
+
+	xphMainMenu.addSetting(xphDeliveryManSettingsButton);
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
 	xphDeliveryManMenu.addSetting(xphTestSetting);
+
+	xphCurrentMenu = xphMainMenu;
 
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -32,7 +42,7 @@ function xphSaveSettings() {
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
 		// xphDeliveryOpenToggle.click();
-		xphDeliveryManMenu.click();
+		xphCurrentMenu.click();
 	}
 
 	if (button == -1) {
@@ -53,7 +63,7 @@ function xphGuiClicked(mouseX, mouseY, button) {
 function xphGuiStep() {
   if (xphGui.isOpen()) {
 		// xphDeliveryOpenToggle.update();
-		xphDeliveryManMenu.update();
+		xphCurrentMenu.update();
   }
 }
 
@@ -84,7 +94,7 @@ function xphGuiDraw(mouseX, mouseY) {
 
 	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
 	// xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
-	xphDeliveryManMenu.draw(x, y, mouseX, mouseY);
+	xphCurrentMenu.draw(x, y, mouseX, mouseY);
 
   xphUpdateSettings();
 }
@@ -417,6 +427,75 @@ function xphColorSelector(text, variable) {
 
 // Buttons
 
-function xphButtonSelector(text, page) {
+function xphButton(text, color, hovercolor, textcolor, menu) {
+	this.text = text;
 
+	this.x = 0;
+	this.y = 0;
+	this.mouseX = 0;
+	this.mouseY = 0;
+
+	this.hovered = false;
+
+	this.color = color;
+	this.hovercolor = hovercolor;
+	this.textcolor = textcolor;
+
+	this.menu = menu;
+
+	this.update = function() {
+
+	}
+
+	this.draw = function(x, y, mouseX, mouseY) {
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+		this.x = x;
+		this.y = y;
+
+		this.hover();
+
+		var buttonColor;
+
+		if (this.hovered) {
+			buttonColor = this.hovercolor;
+		} else {
+			buttonColor = this.color;
+		}
+
+		RenderLib.drawRectangle(
+			buttonColor,
+			this.x - (RenderLib.getStringWidth(this.text) / 2) - 5,
+			this.y - (9 / 2),
+			RenderLib.getStringWidth(this.text) + 10,
+			19
+		);
+
+		RenderLib.drawStringWithShadow(
+			this.text,
+			this.x - RenderLib.getStringWidth(text) / 2,
+			y,
+			this.textcolor
+		);
+
+	}
+
+	this.hover = function() {
+		this.hovered = false;
+
+		var x1 = this.x - (RenderLib.getStringWidth(this.text) / 2) - 5;
+		var x2 = x1 + RenderLib.getStringWidth(this.text) + 10;
+		var y1 = this.y - (9 / 2);
+		var y2 = y1 + 19;
+
+		if (this.mouseX > x1 && this.mouseX < x2 && this.mouseY > y1 && this.mouseY < y2) {
+			this.hovered = true;
+		}
+	}
+
+	this.click = function() {
+		if (this.hovered) {
+			xphCurrentMenu = this.menu;
+		}
+	}
 }
