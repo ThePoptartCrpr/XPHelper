@@ -75,16 +75,16 @@ function xphGuiDraw(mouseX, mouseY) {
   RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
 
   // draw examples
-  RenderLib.drawStringWithShadow(
+  /*RenderLib.drawStringWithShadow(
 	ChatLib.addColor(titleString),
 	x - titleWidth / 2,
     y,
     0xffffffff
-  );
+  );*/
 
 	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
 	// xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
-	xphDeliveryManMenu.draw(x, y + 30, mouseX, mouseY);
+	xphDeliveryManMenu.draw(x, y, mouseX, mouseY);
 
   xphUpdateSettings();
 }
@@ -128,6 +128,18 @@ function xphGuiMenu(title) {
 	}
 
 	this.draw = function(x, y, mouseX, mouseY) {
+
+		titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(this.title));
+
+		RenderLib.drawStringWithShadow(
+		ChatLib.addColor(this.title),
+		x - titleWidth / 2,
+	    y,
+	    0xffffffff
+	  );
+
+		y += 30;
+
 		for (var i = 0; i < this.settings.length; i++) {
 			this.settings[i].draw(x, y, mouseX, mouseY);
 			y += 50;
