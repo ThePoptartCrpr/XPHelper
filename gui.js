@@ -13,9 +13,13 @@ TriggerRegister.registerStep("xphGuiStep");
 xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
-	// xphTestSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
-	// xphTestColorSelector = new xphColorSelector("Test Selector", xphSettings.testVar);
+	xphDeliveryManMenu = new xphGuiMenu("&6Delivery Man");
+
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", xphSettings.deliveryman.autoOpen);
+	xphTestSetting = new xphColorSelector("Test", xphSettings.testVar);
+
+	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
+	xphDeliveryManMenu.addSetting(xphTestSetting);
 
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -27,9 +31,8 @@ function xphSaveSettings() {
 
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
-		// xphTestSelector.click();
-		// xphTestColorSelector.click();
-		xphDeliveryOpenToggle.click();
+		// xphDeliveryOpenToggle.click();
+		xphDeliveryManMenu.click();
 	}
 
 	if (button == -1) {
@@ -49,9 +52,8 @@ function xphGuiClicked(mouseX, mouseY, button) {
 
 function xphGuiStep() {
   if (xphGui.isOpen()) {
-    // xphTestSelector.update();
-		// xphTestColorSelector.update();
-		xphDeliveryOpenToggle.update();
+		// xphDeliveryOpenToggle.update();
+		xphDeliveryManMenu.update();
   }
 }
 
@@ -81,7 +83,8 @@ function xphGuiDraw(mouseX, mouseY) {
   );
 
 	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
-	xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
+	// xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
+	xphDeliveryManMenu.draw(x, y + 30, mouseX, mouseY);
 
   xphUpdateSettings();
 }
@@ -104,6 +107,45 @@ function xphUpdateSettings() {
   if (updateSettings) {
     xphSaveSettings();
   }
+}
+
+// Menu objects
+
+function xphGuiMenu(title) {
+
+	this.title = title;
+
+	this.settings = [];
+
+	this.addSetting = function(setting) {
+		this.settings.push(setting);
+	}
+
+	this.update = function() {
+		for (var i = 0; i < this.settings.length; i++) {
+			this.settings[i].update();
+		}
+	}
+
+	this.draw = function(x, y, mouseX, mouseY) {
+		for (var i = 0; i < this.settings.length; i++) {
+			this.settings[i].draw(x, y, mouseX, mouseY);
+			y += 50;
+		}
+	}
+
+	this.hover = function() {
+		for (var i = 0; i < this.settings.length; i++) {
+			this.settings[i].hover();
+		}
+	}
+
+	this.click = function() {
+		for (var i = 0; i < this.settings.length; i++) {
+			this.settings[i].click();
+		}
+	}
+
 }
 
 // Selectors
