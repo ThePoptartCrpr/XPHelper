@@ -27,7 +27,7 @@ function xphOpenGui() {
 
 	xphMainMenu.addSetting(xphDeliveryManSettingsButton);
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
-	xphDeliveryManMenu.addSetting(xphTestSetting);
+	// xphDeliveryManMenu.addSetting(xphTestSetting);
 
 	xphCurrentMenu = xphMainMenu;
 
@@ -106,12 +106,21 @@ function xphUpdateSettings() {
   if (xphSettings.testVar != getSetting) {
     xphSettings.testVar = getSetting;
     updateSettings = true;
-  }*/
+  }
 
 	var getSetting = xphDeliveryOpenToggle.getSelected();
 	if (xphSettings.deliveryman.autoOpen != getSetting) {
 		xphSettings.deliveryman.autoOpen = getSetting;
 		updateSettings = true;
+	}*/
+
+	for (var i = 0; i < xphDeliveryManMenu.settings.length; i++) {
+		var getSetting = xphDeliveryManMenu.settings[i].getSelected();
+		if (xphDeliveryManMenu.settings[i].variable != getSetting) {
+			xphDeliveryManMenu.settings[i].variable = getSetting;
+			updateSettings = true;
+			ChatLib.chat(xphDeliveryManMenu.settings[i].getVariable() + " " + getSetting);
+		}
 	}
 
   if (updateSettings) {
@@ -182,6 +191,8 @@ function xphOnOffToggleSelector(text, variable) {
 
 	this.hovered = -1;
 	this.selected = JSON.parse(JSON.stringify(variable));
+
+	this.variable = variable;
 
 	this.update = function() {
 
@@ -319,6 +330,10 @@ function xphOnOffToggleSelector(text, variable) {
 	this.getSelected = function() {
 		return this.selected;
 	}
+
+	this.getVariable = function() {
+		return variable;
+	}
 }
 
 function xphSliderSelector(text, variable, min, max) {
@@ -423,6 +438,10 @@ function xphColorSelector(text, variable) {
   this.getSelected = function() {
     return "&" + this.selected.toString(16).toLowerCase();
   }
+
+	this.getVariable = function() {
+		return variable;
+	}
 }
 
 // Buttons
