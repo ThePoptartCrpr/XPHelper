@@ -41,7 +41,6 @@ function xphSaveSettings() {
 
 function xphGuiClicked(mouseX, mouseY, button) {
 	if (button == 0) {
-		// xphDeliveryOpenToggle.click();
 		xphCurrentMenu.click();
 	}
 
@@ -62,14 +61,12 @@ function xphGuiClicked(mouseX, mouseY, button) {
 
 function xphGuiStep() {
   if (xphGui.isOpen()) {
-		// xphDeliveryOpenToggle.update();
 		xphCurrentMenu.update();
   }
 }
 
 function xphGuiDraw(mouseX, mouseY) {
 
-  // setup
   if (RenderLib.getRenderHeight() > 300) {
 	  xphScrolled = 0;
   }
@@ -81,19 +78,8 @@ function xphGuiDraw(mouseX, mouseY) {
 
   titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(titleString));
 
-  // draw background
   RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
 
-  // draw examples
-  /*RenderLib.drawStringWithShadow(
-	ChatLib.addColor(titleString),
-	x - titleWidth / 2,
-    y,
-    0xffffffff
-  );*/
-
-	// xphTestColorSelector.draw(x, y + 30, mouseX, mouseY);
-	// xphDeliveryOpenToggle.draw(x, y + 30, mouseX, mouseY);
 	xphCurrentMenu.draw(x, y, mouseX, mouseY);
 
   xphUpdateSettings();
