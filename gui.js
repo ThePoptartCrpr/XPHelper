@@ -20,8 +20,8 @@ function xphOpenGui() {
 
 	xphMainMenu = new xphGuiMenu("&aXP&bHelper");
 
-	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", xphSettings.deliveryman.autoOpen);
-	xphTestSetting = new xphColorSelector("Test", xphSettings.testVar);
+	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
+	// xphTestSetting = new xphColorSelector("Test", "xphSettings.testing.testVar");
 
 	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
 
@@ -29,7 +29,7 @@ function xphOpenGui() {
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
 	// xphDeliveryManMenu.addSetting(xphTestSetting);
 
-	xphCurrentMenu = xphMainMenu;
+	xphCurrentMenu = xphDeliveryManMenu;
 
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -102,24 +102,14 @@ function xphGuiDraw(mouseX, mouseY) {
 function xphUpdateSettings() {
   var updateSettings = false;
 
-  /*var getSetting = xphTestColorSelector.getSelected();
-  if (xphSettings.testVar != getSetting) {
-    xphSettings.testVar = getSetting;
-    updateSettings = true;
-  }
-
-	var getSetting = xphDeliveryOpenToggle.getSelected();
-	if (xphSettings.deliveryman.autoOpen != getSetting) {
-		xphSettings.deliveryman.autoOpen = getSetting;
-		updateSettings = true;
-	}*/
-
 	for (var i = 0; i < xphDeliveryManMenu.settings.length; i++) {
 		var getSetting = xphDeliveryManMenu.settings[i].getSelected();
-		if (xphDeliveryManMenu.settings[i].variable != getSetting) {
-			xphDeliveryManMenu.settings[i].variable = getSetting;
+		if (JSON.parse(JSON.stringify(xphDeliveryManMenu.settings[i].getVariable())) != getSetting) {
+			var settingsNameArray = xphDeliveryManMenu.settings[i].getVariable().split('.');
+			var menuName = settingsNameArray[1];
+			var settingName = settingsNameArray[2];
+			xphSettings[menuName][settingName] = getSetting;
 			updateSettings = true;
-			ChatLib.chat(xphDeliveryManMenu.settings[i].getVariable() + " " + getSetting);
 		}
 	}
 
@@ -190,9 +180,8 @@ function xphOnOffToggleSelector(text, variable) {
 	this.mouseY = 0;
 
 	this.hovered = -1;
-	this.selected = JSON.parse(JSON.stringify(variable));
 
-	this.variable = variable;
+	this.selected = xphSettings[variable.split('.')[1]][variable.split('.')[2]];
 
 	this.update = function() {
 
@@ -356,7 +345,7 @@ function xphColorSelector(text, variable) {
   this.xOffsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   this.zOffsets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-  this.selected = parseInt("0x" + variable.replace("&", ""));
+  this.selected = parseInt("0x" + xphSettings[variable.split('.')[1]][variable.split('.')[2]].replace("&", ""));
 
   this.update = function() {
     for (var i = 0; i < 16; i++) {

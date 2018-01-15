@@ -2,8 +2,10 @@ var xphDate = new Date();
 
 var xphSettings = {
 	test: "a",
-	testVar: "e",
 	colorscheme: "&e",
+	testing: {
+		testVar: "e",
+	},
 	deliveryman: {
 		autoOpen: "true"
 	}
