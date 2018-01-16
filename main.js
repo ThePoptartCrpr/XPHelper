@@ -16,7 +16,15 @@ var xphDailyStats = {
 	coins: 0,
 	challenges: 0,
 	challengesleft: 0,
-	quests: 0
+	quests: 0,
+	tips: 0,
+	tipsSent: 0,
+	deliveryman: {
+		voted: "false",
+		daily: "false",
+		card: "false",
+		dismissed: "false"
+	}
 }
 
 var xphTotalStats = {
@@ -51,8 +59,13 @@ function func_newday() {
 		if (xphDayTesting.testday != xphDayTesting.day) {
 			xphDayTesting.day = xphDate.getMonth() + " " + xphDate.getDate() + " " + xphDate.getFullYear();
 			FileLib.write("XPHelper", "Data/DayTesting.json", JSON.stringify(xphDayTesting));
+			func_xphOnNewDay();
 		}
 	}).start();
+}
+
+function func_xphOnNewDay() {
+
 }
 
 function func_initializeVars() {
@@ -79,8 +92,19 @@ function func_loadSettings() {
 	if (settingsFile) {
 		xphSettings = xphLoadSettings(xphSettings, "XPHelper", "Data/settings.json");
 	}
+
+	try {
+		var dailyStatsFile = FileLib.read("XPHelper", "Data/dailystats.json");
+	} catch (e) {
+		FileLib.write("XPHelper", "Data/dailystats.json", JSON.stringify(xphDailyStats));
+	}
+
+	if (dailyStatsFile) {
+		xphDailyStats = xphLoadSettings(xphDailyStats, "XPHelper", "Data/dailystats.json");
+	}
 }
 
 function func_saveSettings() {
 	FileLib.write("XPHelper", "Data/settings.json", JSON.stringify(xphSettings));
+	FileLib.write("XPHelper", "Data/dailystats.json", JSON.stringify(xphDailyStats));
 }

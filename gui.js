@@ -16,20 +16,35 @@ xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
 
-	xphDeliveryManMenu = new xphGuiMenu("&6Delivery Man");
+	xphDeliveryManMenu = new xphGuiMenu("&6Delivery Man Settings");
 
+	xphSettingsMenu = new xphGuiMenu("&bSettings");
 	xphMainMenu = new xphGuiMenu("&aXP&bHelper");
+
+	xphComingSoonMenu = new xphGuiMenu("&cComing soon!");
 
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
 	// xphTestSetting = new xphColorSelector("Test", "xphSettings.testing.testVar");
 
 	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
+	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.color(85, 255, 255, 255), RenderLib.WHITE, xphSettingsMenu);
+	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.color(85, 255, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
+	xphInfoButton = new xphButton("Info", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
+	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.color(255, 85, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
+	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.color(0, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
 
-	xphMainMenu.addSetting(xphDeliveryManSettingsButton);
+	xphMainMenu.addSetting(xphSettingsButton);
+	xphMainMenu.addSetting(xphStatsButton);
+	xphMainMenu.addSetting(xphInfoButton);
+	xphMainMenu.addSetting(xphGoalsButton);
+	xphMainMenu.addSetting(xphQuestsButton);
+
+	xphSettingsMenu.addSetting(xphDeliveryManSettingsButton);
+
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
 	// xphDeliveryManMenu.addSetting(xphTestSetting);
 
-	xphCurrentMenu = xphDeliveryManMenu;
+	xphCurrentMenu = xphMainMenu;
 
 	xphGui.open();
 	ChatLib.chat(JSON.stringify(xphSettings));
@@ -73,10 +88,6 @@ function xphGuiDraw(mouseX, mouseY) {
 
   var y = 20 - xphScrolled;
   var x = RenderLib.getRenderWidth() / 2;
-
-  titleString = "&aXP&bHelper";
-
-  titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(titleString));
 
   RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
 
@@ -319,6 +330,7 @@ function xphIntIncrementSelector(text, variable, min, max) {
 
 }
 
+// credit for this one goes to FalseHonesty, I'm just using it for testing right now lol
 function xphColorSelector(text, variable) {
   this.text = text;
 
@@ -457,13 +469,23 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 			buttonColor = this.color;
 		}
 
-		RenderLib.drawRectangle(
-			buttonColor,
-			this.x - (RenderLib.getStringWidth(this.text) / 2) - 5,
-			this.y - (9 / 2),
-			RenderLib.getStringWidth(this.text) + 10,
-			19
-		);
+		if (RenderLib.getStringWidth("eeeeeee") < RenderLib.getStringWidth(this.text)) {
+			RenderLib.drawRectangle(
+				buttonColor,
+				this.x - (RenderLib.getStringWidth(this.text) / 2) - 5,
+				this.y - (9 / 2),
+				RenderLib.getStringWidth(this.text) + 10,
+				19
+			);
+		} else {
+			RenderLib.drawRectangle(
+				buttonColor,
+				this.x - (RenderLib.getStringWidth("eeeeeee") / 2) - 5,
+				this.y - (9 / 2),
+				RenderLib.getStringWidth("eeeeeee") + 10,
+				19
+			);
+		}
 
 		RenderLib.drawStringWithShadow(
 			this.text,

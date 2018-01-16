@@ -12,6 +12,8 @@
 TriggerRegister.registerChat("openVoteLink").setChatCriteria("&aToday's voting link is &r&b${URL}&r&a!&r&a &aFollow the instructions on the website to redeem &95,000 XP &aand &63,000 Arcade Coins&a!&r");
 TriggerRegister.registerChat("openRewardLink").setChatCriteria("\n&r&6Click the link to visit our website and claim your reward: &r&b${URL}&r\n&r");
 
+TriggerRegister.registerChat("xphDailyClaimed").setChatCriteria("&r&aYou have successfully claimed &r&32,000 &r&3Hypixel &r&3Experience&r&a and &r&63,000 &r&6Arcade &r&6Coins&r&a!&r");
+
 function openVoteLink(URL) {
 	// ChatLib.chat(xphSetting.deliveryman.autoOpen);
 	if (xphSettings.deliveryman.autoOpen == true) {
@@ -25,4 +27,10 @@ function openRewardLink(URL) {
 		ChatLib.chat("&aAutomatically opening the reward link.");
 		java.awt.Desktop.getDesktop().browse(new java.net.URI(URL));
 	}
+}
+
+function xphDailyClaimed() {
+	// xphDailyStats.deliveryman.daily = true;
+	// xphDailyStats.xp += 2000;
+	// xphDailyStats.coins += 3000;
 }
