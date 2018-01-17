@@ -101,10 +101,11 @@ function xphGuiDraw(mouseX, mouseY) {
 function xphUpdateSettings() {
   var updateSettings = false;
 
-	for (var i = 0; i < xphDeliveryManMenu.settings.length; i++) {
-		var getSetting = xphDeliveryManMenu.settings[i].getSelected();
-		if (JSON.parse(JSON.stringify(xphDeliveryManMenu.settings[i].getVariable())) != getSetting) {
-			var settingsNameArray = xphDeliveryManMenu.settings[i].getVariable().split('.');
+	for (var i = 0; i < xphCurrentMenu.settings.length; i++) {
+		if (xphCurrentMenu.settings[i].getType() == "Button") return;
+		var getSetting = xphCurrentMenu.settings[i].getSelected();
+		if (JSON.parse(JSON.stringify(xphCurrentMenu.settings[i].getVariable())) != getSetting) {
+			var settingsNameArray = xphCurrentMenu.settings[i].getVariable().split('.');
 			var menuName = settingsNameArray[1];
 			var settingName = settingsNameArray[2];
 			xphSettings[menuName][settingName] = getSetting;
@@ -150,7 +151,11 @@ function xphGuiMenu(title) {
 
 		for (var i = 0; i < this.settings.length; i++) {
 			this.settings[i].draw(x, y, mouseX, mouseY);
-			y += 50;
+			if (this.settings[i].getType() == "Button") {
+			 	y += 40;
+			} else {
+			 	y += 50;
+			}
 		}
 	}
 
@@ -322,6 +327,10 @@ function xphOnOffToggleSelector(text, variable) {
 	this.getVariable = function() {
 		return variable;
 	}
+
+	this.getType = function() {
+		return "Selector";
+	}
 }
 
 function xphSliderSelector(text, variable, min, max) {
@@ -431,6 +440,10 @@ function xphColorSelector(text, variable) {
 	this.getVariable = function() {
 		return variable;
 	}
+
+	this.getType = function() {
+		return "Selector";
+	}
 }
 
 // Buttons
@@ -515,5 +528,9 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 		if (this.hovered) {
 			xphCurrentMenu = this.menu;
 		}
+	}
+
+	this.getType = function() {
+		return "Button";
 	}
 }
