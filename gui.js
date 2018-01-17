@@ -24,6 +24,7 @@ function xphOpenGui() {
 	xphComingSoonMenu = new xphGuiMenu("&cComing soon!");
 
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
+	xphDeliveryWarnToggle = new xphOnOffToggleSelector("Warning if you haven't claimed daily rewards when you switch lobbies", "xphSettings.deliveryman.warnOnSwitch");
 	// xphTestSetting = new xphColorSelector("Test", "xphSettings.testing.testVar");
 
 	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
@@ -42,6 +43,7 @@ function xphOpenGui() {
 	xphSettingsMenu.addSetting(xphDeliveryManSettingsButton);
 
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
+	xphDeliveryManMenu.addSetting(xphDeliveryWarnToggle);
 	// xphDeliveryManMenu.addSetting(xphTestSetting);
 
 	xphCurrentMenu = xphMainMenu;

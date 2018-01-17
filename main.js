@@ -1,29 +1,49 @@
 var xphDate = new Date();
 
 var xphSettings = {
-	test: "a",
-	colorscheme: "&e",
 	testing: {
 		testVar: "e",
+		teeest: "asdf"
 	},
 	deliveryman: {
-		autoOpen: "true"
+		autoOpen: true,
+		warnOnSwitch: true
 	}
 }
 
 var xphDailyStats = {
-	xp: 0,
-	coins: 0,
-	challenges: 0,
-	challengesleft: 0,
-	quests: 0,
-	tips: 0,
-	tipsSent: 0,
+	stats: {
+		xp: 0,
+		coins: 0,
+		challenges: 0,
+		challengesleft: 0,
+		quests: 0,
+		tips: 0,
+		tipsSent: 0,
+	},
 	deliveryman: {
-		voted: "false",
-		daily: "false",
-		card: "false",
-		dismissed: "false"
+		voted: false,
+		daily: false,
+		card: false,
+		dismissed: false
+	}
+}
+
+var xphDailyStats = {
+	stats: {
+		xp: 0,
+		coins: 0,
+		challenges: 0,
+		challengesleft: 0,
+		quests: 0,
+		tips: 0,
+		tipsSent: 0,
+	},
+	deliveryman: {
+		voted: false,
+		daily: false,
+		card: false,
+		dismissed: false
 	}
 }
 
@@ -65,7 +85,7 @@ function func_newday() {
 }
 
 function func_xphOnNewDay() {
-
+	xphDailyStats = Object.assign({}, xphBlankDailyStats);
 }
 
 function func_initializeVars() {
@@ -80,7 +100,7 @@ function func_loadSettings() {
 	}
 
 	if (dayFile) {
-		xphDayTesting = xphLoadSettings(xphDayTesting, "XPHelper", "Data/daytesting.json");
+		xphDayTesting = xphLoadSettings1D(xphDayTesting, "XPHelper", "Data/daytesting.json");
 	}
 
 	try {
