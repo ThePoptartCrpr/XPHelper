@@ -46,17 +46,20 @@ function xphLoadSettings(json, fileLocation, fileName) {
 
   if (tempSettings != null && tempSettings != "" && tempSettings != undefined) {
   //////////////////////////////////////////////////////////////////
-    for (x in json) {
-      for (y in tempSettings) {
-        //Debug: print("x: " + x + " = " + json[x] + "   Y: " + y + " = " + tempSettings[y])
-        if (x == y) {
-          json[x] = tempSettings[y];
-          //Debug: print("Works: new json[x] = " + json[x]);
-          break;
-        }
-
-      }
-    }
+		for (a in json) {
+			for (x in a) {
+				for (e in tempSettings) {
+		      for (y in e) {
+		        //Debug: print("x: " + x + " = " + json[x] + "   Y: " + y + " = " + tempSettings[y])
+		        if (x == y) {
+		          json[a][x] = tempSettings[e][y];
+		          //Debug: print("Works: new json[x] = " + json[x]);
+		          break;
+		        }
+		      }
+				}
+	    }
+		}
   //////////////////////////////////////////////////////////////////
   }
   return json;
