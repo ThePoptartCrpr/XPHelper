@@ -44,11 +44,11 @@ function xphDailyClaimed() {
 }
 
 function xphCardClaimed(URL) {
-	xphDailyStats.deliveryman.card = true;
+	xphDailyStats.card = true;
 }
 
 function xphVoteClaimed() {
-	xphDailyStats.deliveryman.voted = true;
+	xphDailyStats.voted = true;
 	xphDailyStats.xp += 5000;
 	xphDailyStats.coins += 3000;
 	xphTotalStats.xp += 5000;
@@ -57,24 +57,24 @@ function xphVoteClaimed() {
 
 // Warning
 function xphLobbySwitchWarn() {
-	if ((xphSettings.deliveryman.warnOnSwitch == true) && (xphDailyStats.deliveryman.dismissed == false) && (serverIP.indexOf("hypixel") !== -1)) {
-		if ((xphDailyStats.deliveryman.voted == false) || (xphDailyStats.deliveryman.daily == false) || (xphDailyStats.deliveryman.card == false)) {
+	if ((xphSettings.deliveryman.warnOnSwitch == true) && (xphDailyStats.dismissed == false) && (serverIP.indexOf("hypixel") !== -1)) {
+		if ((xphDailyStats.voted == false) || (xphDailyStats.daily == false) || (xphDailyStats.card == false)) {
 			new Thread(function() {
 				Thread.sleep(2000);
 				ChatLib.chat(xphBreak);
-				if (xphDailyStats.deliveryman.voted == false && xphDailyStats.deliveryman.card == false && xphDailyStats.deliveryman.daily == false) {
+				if (xphDailyStats.voted == false && xphDailyStats.card == false && xphDailyStats.daily == false) {
 	      	ChatLib.chat("&cYou haven\'t claimed your daily rewards, reward card or voted yet today!");
-				} else if (xphDailyStats.deliveryman.voted == false && xphDailyStats.deliveryman.card == false) {
+				} else if (xphDailyStats.voted == false && xphDailyStats.card == false) {
 		  		ChatLib.chat("&cYou haven\'t claimed your reward card or voted yet today!");
-				} else if (xphDailyStats.deliveryman.voted == false && xphDailyStats.deliveryman.daily == false) {
+				} else if (xphDailyStats.voted == false && xphDailyStats.daily == false) {
 		  		ChatLib.chat("&cYou haven\'t claimed your daily rewards or voted yet today!");
-				} else if (xphDailyStats.deliveryman.daily == false && xphDailyStats.deliveryman.card == false) {
+				} else if (xphDailyStats.daily == false && xphDailyStats.card == false) {
 		  		ChatLib.chat("&cYou haven\'t claimed your daily rewards or reward card yet today!");
-				} else if (xphDailyStats.deliveryman.daily == false) {
+				} else if (xphDailyStats.daily == false) {
 		  		ChatLib.chat("&cYou haven\'t claimed your daily rewards yet today!");
-		 		}	else if (xphDailyStats.deliveryman.card == false) {
+		 		}	else if (xphDailyStats.card == false) {
 		  		ChatLib.chat("&cYou haven\'t claimed your reward card yet today!");
-				} else if (xphDailyStats.deliveryman.voted == false) {
+				} else if (xphDailyStats.voted == false) {
 		  		ChatLib.chat("&cYou haven\'t voted yet today!");
 				}
 				xphChat();
@@ -93,10 +93,10 @@ function xphDismissWarn() {
 	ChatLib.chat(xphBreak);
 	ChatLib.chat("&cDismissed the warning.");
 	ChatLib.chat(xphBreak);
-	xphDailyStats.deliveryman.dismissed = true;
+	xphDailyStats.dismissed = true;
 }
 
 // Debug commands
 function xphUndoDismiss() {
-	xphDailyStats.deliveryman.dismissed = false;
+	xphDailyStats.dismissed = false;
 }

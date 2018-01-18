@@ -12,39 +12,31 @@ var xphSettings = {
 }
 
 var xphDailyStats = {
-	stats: {
-		xp: 0,
-		coins: 0,
-		challenges: 0,
-		challengesleft: 0,
-		quests: 0,
-		tips: 0,
-		tipsSent: 0,
-	},
-	deliveryman: {
-		voted: false,
-		daily: false,
-		card: false,
-		dismissed: false
-	}
+	xp: 0,
+	coins: 0,
+	challenges: 0,
+	challengesleft: 0,
+	quests: 0,
+	tips: 0,
+	tipsSent: 0,
+	voted: false,
+	daily: false,
+	card: false,
+	dismissed: false
 }
 
 var xphBlankDailyStats = {
-	stats: {
-		xp: 0,
-		coins: 0,
-		challenges: 0,
-		challengesleft: 0,
-		quests: 0,
-		tips: 0,
-		tipsSent: 0,
-	},
-	deliveryman: {
-		voted: false,
-		daily: false,
-		card: false,
-		dismissed: false
-	}
+	xp: 0,
+	coins: 0,
+	challenges: 0,
+	challengesleft: 0,
+	quests: 0,
+	tips: 0,
+	tipsSent: 0,
+	voted: false,
+	daily: false,
+	card: false,
+	dismissed: false
 }
 
 var xphTotalStats = {
@@ -120,7 +112,7 @@ function func_loadSettings() {
 	}
 
 	if (dailyStatsFile) {
-		xphDailyStats = xphLoadSettings(xphDailyStats, "XPHelper", "Data/dailystats.json");
+		xphDailyStats = xphLoadSettings1D(xphDailyStats, "XPHelper", "Data/dailystats.json");
 	}
 
 	try {

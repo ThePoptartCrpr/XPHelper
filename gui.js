@@ -21,6 +21,8 @@ function xphOpenGui() {
 	xphSettingsMenu = new xphGuiMenu("&bSettings");
 	xphMainMenu = new xphGuiMenu("&aXP&bHelper");
 
+	xphDailyStatsMenu = new xphStatsMenu("&2Stats");
+
 	xphComingSoonMenu = new xphGuiMenu("&cComing soon!");
 
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
@@ -29,7 +31,7 @@ function xphOpenGui() {
 
 	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
 	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.color(85, 255, 255, 255), RenderLib.WHITE, xphSettingsMenu);
-	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.color(85, 255, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
+	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.color(85, 255, 85, 255), RenderLib.WHITE, xphDailyStatsMenu);
 	xphInfoButton = new xphButton("Info", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
 	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.color(255, 85, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
 	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.color(0, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
@@ -46,6 +48,9 @@ function xphOpenGui() {
 	xphDeliveryManMenu.addSetting(xphDeliveryWarnToggle);
 	// xphDeliveryManMenu.addSetting(xphTestSetting);
 
+	xphDailyStatsMenu.addString("&aTotal XP gained today: &1", xphDailyStats.xp);
+	xphDailyStatsMenu.addString("&aTotal coins gained today: &6", xphDailyStats.coins);
+
 	xphCurrentMenu = xphMainMenu;
 
 	xphGui.open();
@@ -57,7 +62,7 @@ function xphSaveSettings() {
 }
 
 function xphGuiClicked(mouseX, mouseY, button) {
-	if (button == 0) {
+	if (button == 0 && xphCurrentMenu.getType() == "Settings") {
 		xphCurrentMenu.click();
 	}
 
@@ -71,13 +76,13 @@ function xphGuiClicked(mouseX, mouseY, button) {
 		xphScrolled = 0;
 	}
 
-	if (xphScrolled > 300 - RenderLib.getRenderHeight()) {
-		xphScrolled = 300 - RenderLib.getRenderHeight();
+	if (xphScrolled > 270 - RenderLib.getRenderHeight()) {
+		xphScrolled = 270 - RenderLib.getRenderHeight();
 	}
 }
 
 function xphGuiStep() {
-  if (xphGui.isOpen()) {
+  if (xphGui.isOpen() && xphCurrentMenu.getType() == "Settings") {
 		xphCurrentMenu.update();
   }
 }
@@ -100,6 +105,8 @@ function xphGuiDraw(mouseX, mouseY) {
 
 function xphUpdateSettings() {
   var updateSettings = false;
+
+	if (xphCurrentMenu.getType() == "Stats") return;
 
 	for (var i = 0; i < xphCurrentMenu.settings.length; i++) {
 		if (xphCurrentMenu.settings[i].getType() == "Button") return;
@@ -162,9 +169,63 @@ function xphGuiMenu(title) {
 		}
 	}
 
+	this.getType = function() {
+		return "Settings";
+	}
+
+}
+
+function xphStatsMenu(title) {
+
+	this.title = title;
+
+	this.strings = [];
+
+	this.addString = function(string, value) {
+		this.strings.push(string + value);
+	}
+
+	this.draw = function(x, y, mouseX, mouseY) {
+
+		RenderLib.drawStringWithShadow(
+		ChatLib.addColor(this.title),
+		x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.title)) / 2,
+	    y,
+	    0xffffffff
+	  );
+
+		y += 30;
+
+		for (var i = 0; i < this.strings.length; i++) {
+			RenderLib.drawStringWithShadow(
+			ChatLib.addColor(this.strings[i]),
+			x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.strings[i])) / 2,
+				y,
+				0xffffffff
+			);
+			y += 15;
+		}
+	}
+
+	this.getType = function() {
+		return "Stats";
+	}
+
 }
 
 // Selectors
+
+/*function xphGuiString(text, variable) {
+	this.text = text;
+
+	this.x = 0;
+	this.y = 0;
+	this.mouseX = 0;
+	this.mouseY = 0;
+
+
+
+}*/
 
 function xphOnOffToggleSelector(text, variable) {
 	this.text = text;
