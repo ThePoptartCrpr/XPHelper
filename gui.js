@@ -104,11 +104,8 @@ function xphUpdateSettings() {
 	for (var i = 0; i < xphCurrentMenu.settings.length; i++) {
 		if (xphCurrentMenu.settings[i].getType() == "Button") return;
 		var getSetting = xphCurrentMenu.settings[i].getSelected();
-		if (JSON.parse(JSON.stringify(xphCurrentMenu.settings[i].getVariable())) != getSetting) {
-			var settingsNameArray = xphCurrentMenu.settings[i].getVariable().split('.');
-			var menuName = settingsNameArray[1];
-			var settingName = settingsNameArray[2];
-			xphSettings[menuName][settingName] = getSetting;
+		if (xphSettings[xphCurrentMenu.settings[i].getVariable().split('.')[1]][xphCurrentMenu.settings[i].getVariable().split('.')[2]] != getSetting) {
+			xphSettings[xphCurrentMenu.settings[i].getVariable().split('.')[1]][xphCurrentMenu.settings[i].getVariable().split('.')[2]] = getSetting;
 			updateSettings = true;
 		}
 	}
