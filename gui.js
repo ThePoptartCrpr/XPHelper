@@ -159,12 +159,6 @@ function xphGuiMenu(title) {
 		}
 	}
 
-	this.hover = function() {
-		for (var i = 0; i < this.settings.length; i++) {
-			this.settings[i].hover();
-		}
-	}
-
 	this.click = function() {
 		for (var i = 0; i < this.settings.length; i++) {
 			this.settings[i].click();

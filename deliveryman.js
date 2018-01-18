@@ -39,6 +39,8 @@ function xphDailyClaimed() {
 	xphDailyStats.deliveryman.daily = true;
 	xphDailyStats.xp += 2000;
 	xphDailyStats.coins += 3000;
+	xphTotalStats.xp += 2000;
+	xphTotalStats.coins += 3000;
 }
 
 function xphCardClaimed(URL) {
@@ -49,6 +51,8 @@ function xphVoteClaimed() {
 	xphDailyStats.deliveryman.voted = true;
 	xphDailyStats.xp += 5000;
 	xphDailyStats.coins += 3000;
+	xphTotalStats.xp += 5000;
+	xphTotalStats.coins += 3000;
 }
 
 // Warning

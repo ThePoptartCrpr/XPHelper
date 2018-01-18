@@ -29,7 +29,7 @@ var xphDailyStats = {
 	}
 }
 
-var xphDailyStats = {
+var xphBlankDailyStats = {
 	stats: {
 		xp: 0,
 		coins: 0,
@@ -85,7 +85,7 @@ function func_newday() {
 }
 
 function func_xphOnNewDay() {
-	xphDailyStats = Object.assign({}, xphBlankDailyStats);
+	xphDailyStats = xphBlankDailyStats;
 }
 
 function func_initializeVars() {
@@ -122,9 +122,20 @@ function func_loadSettings() {
 	if (dailyStatsFile) {
 		xphDailyStats = xphLoadSettings(xphDailyStats, "XPHelper", "Data/dailystats.json");
 	}
+
+	try {
+		var totalStatsFile = FileLib.read("XPHelper", "Data/totalstats.json");
+	} catch (e) {
+		FileLib.write("XPHelper", "Data/totalstats.json", JSON.stringify(xphTotalStats));
+	}
+
+	if (totalStatsFile) {
+		xphTotalStats = xphLoadSettings1D(xphTotalStats, "XPHelper", "Data/totalstats.json");
+	}
 }
 
 function func_saveSettings() {
 	FileLib.write("XPHelper", "Data/settings.json", JSON.stringify(xphSettings));
 	FileLib.write("XPHelper", "Data/dailystats.json", JSON.stringify(xphDailyStats));
+	FileLib.write("XPHelper", "Data/totalstats.json", JSON.stringify(xphTotalStats));
 }
