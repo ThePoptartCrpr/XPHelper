@@ -36,6 +36,9 @@ function xphOpenGui() {
 	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.color(255, 85, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
 	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.color(0, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
 
+	xphMainMenuBackButton = new xphBackButton(xphMainMenu);
+	xphSettingsMenuBackButton = new xphBackButton(xphSettingsMenu);
+
 	xphMainMenu.addSetting(xphSettingsButton);
 	xphMainMenu.addSetting(xphStatsButton);
 	xphMainMenu.addSetting(xphInfoButton);
@@ -43,13 +46,17 @@ function xphOpenGui() {
 	xphMainMenu.addSetting(xphQuestsButton);
 
 	xphSettingsMenu.addSetting(xphDeliveryManSettingsButton);
+	xphSettingsMenu.addSetting(xphMainMenuBackButton);
 
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
 	xphDeliveryManMenu.addSetting(xphDeliveryWarnToggle);
-	// xphDeliveryManMenu.addSetting(xphTestSetting);
+	xphDeliveryManMenu.addSetting(xphSettingsMenuBackButton);
 
 	xphDailyStatsMenu.addString("&aTotal XP gained today: &1", xphDailyStats.xp);
 	xphDailyStatsMenu.addString("&aTotal coins gained today: &6", xphDailyStats.coins);
+	xphDailyStatsMenu.addButton(xphMainMenuBackButton);
+
+	xphComingSoonMenu.addSetting(xphMainMenuBackButton);
 
 	xphCurrentMenu = xphMainMenu;
 
@@ -62,7 +69,7 @@ function xphSaveSettings() {
 }
 
 function xphGuiClicked(mouseX, mouseY, button) {
-	if (button == 0 && xphCurrentMenu.getType() == "Settings") {
+	if (button == 0) {
 		xphCurrentMenu.click();
 	}
 
@@ -154,6 +161,7 @@ function xphGuiMenu(title) {
 		y += 30;
 
 		for (var i = 0; i < this.settings.length; i++) {
+			if (this.settings[i] instanceof xphBackButton) y += 15;
 			this.settings[i].draw(x, y, mouseX, mouseY);
 			if (this.settings[i].getType() == "Button") {
 			 	y += 40;
@@ -185,6 +193,10 @@ function xphStatsMenu(title) {
 		this.strings.push(string + value);
 	}
 
+	this.addButton = function(button) {
+		this.strings.push(button);
+	}
+
 	this.draw = function(x, y, mouseX, mouseY) {
 
 		RenderLib.drawStringWithShadow(
@@ -197,13 +209,27 @@ function xphStatsMenu(title) {
 		y += 30;
 
 		for (var i = 0; i < this.strings.length; i++) {
-			RenderLib.drawStringWithShadow(
-			ChatLib.addColor(this.strings[i]),
-			x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.strings[i])) / 2,
-				y,
-				0xffffffff
-			);
-			y += 15;
+			if (this.strings[i] instanceof xphButton || this.strings[i] instanceof xphBackButton) {
+				y += 15;
+				this.strings[i].draw(x, y, mouseX, mouseY);
+				y += 20;
+			} else {
+				RenderLib.drawStringWithShadow(
+				ChatLib.addColor(this.strings[i]),
+				x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.strings[i])) / 2,
+					y,
+					0xffffffff
+				);
+				y += 15;
+			}
+		}
+	}
+
+	this.click = function() {
+		for (var i = 0; i < this.strings.length; i++) {
+			if (this.strings[i] instanceof xphButton || this.strings[i] instanceof xphBackButton) {
+				this.strings[i].click();
+			}
 		}
 	}
 
@@ -568,6 +594,83 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 
 		var x1 = this.x - (RenderLib.getStringWidth(this.text) / 2) - 5;
 		var x2 = x1 + RenderLib.getStringWidth(this.text) + 10;
+		var y1 = this.y - (9 / 2);
+		var y2 = y1 + 19;
+
+		if (this.mouseX > x1 && this.mouseX < x2 && this.mouseY > y1 && this.mouseY < y2) {
+			this.hovered = true;
+		}
+	}
+
+	this.click = function() {
+		if (this.hovered) {
+			xphCurrentMenu = this.menu;
+		}
+	}
+
+	this.getType = function() {
+		return "Button";
+	}
+}
+
+function xphBackButton(menu) {
+	this.text = "Back";
+
+	this.x = 0;
+	this.y = 0;
+	this.mouseX = 0;
+	this.mouseY = 0;
+
+	this.hovered = false;
+
+	this.color = RenderLib.color(255, 85, 85, 150);
+	this.hovercolor = RenderLib.color(255, 85, 85, 255);
+	this.textcolor = RenderLib.WHITE;
+
+	this.menu = menu;
+
+	this.update = function() {
+
+	}
+
+	this.draw = function(x, y, mouseX, mouseY) {
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+		this.x = x;
+		this.y = y;
+
+		this.hover();
+
+		var buttonColor;
+
+		if (this.hovered) {
+			buttonColor = this.hovercolor;
+		} else {
+			buttonColor = this.color;
+		}
+
+		RenderLib.drawRectangle(
+			buttonColor,
+			this.x - (RenderLib.getStringWidth("Back") / 2) - 5,
+			this.y - (9 / 2),
+			RenderLib.getStringWidth("Back") + 10,
+			19
+		);
+
+		RenderLib.drawStringWithShadow(
+			this.text,
+			this.x - RenderLib.getStringWidth("Back") / 2,
+			y,
+			this.textcolor
+		);
+
+	}
+
+	this.hover = function() {
+		this.hovered = false;
+
+		var x1 = this.x - (RenderLib.getStringWidth("Back") / 2) - 5;
+		var x2 = x1 + RenderLib.getStringWidth("Back") + 10;
 		var y1 = this.y - (9 / 2);
 		var y2 = y1 + 19;
 
