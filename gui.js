@@ -22,6 +22,7 @@ function xphOpenGui() {
 	xphMainMenu = new xphGuiMenu("&aXP&bHelper");
 
 	xphDailyStatsMenu = new xphStatsMenu("&2Stats");
+	xphTotalStatsMenu = new xphStatsMenu("&2Stats");
 
 	xphComingSoonMenu = new xphGuiMenu("&cComing soon!");
 
@@ -29,12 +30,15 @@ function xphOpenGui() {
 	xphDeliveryWarnToggle = new xphOnOffToggleSelector("Warning if you haven't claimed daily rewards when you switch lobbies", "xphSettings.deliveryman.warnOnSwitch");
 	// xphTestSetting = new xphColorSelector("Test", "xphSettings.testing.testVar");
 
-	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphDeliveryManMenu);
-	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.color(85, 255, 255, 255), RenderLib.WHITE, xphSettingsMenu);
-	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.color(85, 255, 85, 255), RenderLib.WHITE, xphDailyStatsMenu);
-	xphInfoButton = new xphButton("Info", RenderLib.color(255, 170, 0, 150), RenderLib.color(255, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
-	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.color(255, 85, 85, 255), RenderLib.WHITE, xphComingSoonMenu);
-	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.color(0, 170, 0, 255), RenderLib.WHITE, xphComingSoonMenu);
+	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.GOLD, RenderLib.WHITE, xphDeliveryManMenu);
+	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphSettingsMenu);
+	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.GREEN, RenderLib.WHITE, xphDailyStatsMenu);
+	xphInfoButton = new xphButton("Info", RenderLib.color(255, 170, 0, 150), RenderLib.GOLD, RenderLib.WHITE, xphComingSoonMenu);
+	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.RED, RenderLib.WHITE, xphComingSoonMenu);
+	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.DARK_GREEN, RenderLib.WHITE, xphComingSoonMenu);
+
+	xphTotalStatsButton = new xphButton("Lifetime Stats", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphTotalStatsMenu);
+	xphDailyStatsButton = new xphButton("Daily Stats", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphDailyStatsMenu);
 
 	xphMainMenuBackButton = new xphBackButton(xphMainMenu);
 	xphSettingsMenuBackButton = new xphBackButton(xphSettingsMenu);
@@ -52,9 +56,15 @@ function xphOpenGui() {
 	xphDeliveryManMenu.addSetting(xphDeliveryWarnToggle);
 	xphDeliveryManMenu.addSetting(xphSettingsMenuBackButton);
 
+	xphDailyStatsMenu.addButton(xphTotalStatsButton);
 	xphDailyStatsMenu.addString("&aTotal XP gained today: &1", xphDailyStats.xp);
 	xphDailyStatsMenu.addString("&aTotal coins gained today: &6", xphDailyStats.coins);
 	xphDailyStatsMenu.addButton(xphMainMenuBackButton);
+
+	xphTotalStatsMenu.addButton(xphDailyStatsButton);
+	xphTotalStatsMenu.addString("&aTotal XP gained: &1", xphTotalStats.xp);
+	xphTotalStatsMenu.addString("&aTotal coins gained: &6", xphTotalStats.coins);
+	xphTotalStatsMenu.addButton(xphMainMenuBackButton);
 
 	xphComingSoonMenu.addSetting(xphMainMenuBackButton);
 
@@ -210,9 +220,9 @@ function xphStatsMenu(title) {
 
 		for (var i = 0; i < this.strings.length; i++) {
 			if (this.strings[i] instanceof xphButton || this.strings[i] instanceof xphBackButton) {
-				y += 15;
+				if (this.strings[i] instanceof xphBackButton) y += 15;
 				this.strings[i].draw(x, y, mouseX, mouseY);
-				y += 20;
+				y += 30;
 			} else {
 				RenderLib.drawStringWithShadow(
 				ChatLib.addColor(this.strings[i]),

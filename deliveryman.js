@@ -36,7 +36,7 @@ function openRewardLink(URL) {
 }
 
 function xphDailyClaimed() {
-	xphDailyStats.deliveryman.daily = true;
+	xphDailyStats.daily = true;
 	xphDailyStats.xp += 2000;
 	xphDailyStats.coins += 3000;
 	xphTotalStats.xp += 2000;
