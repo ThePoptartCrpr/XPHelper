@@ -602,10 +602,17 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 	this.hover = function() {
 		this.hovered = false;
 
-		var x1 = this.x - (RenderLib.getStringWidth(this.text) / 2) - 5;
-		var x2 = x1 + RenderLib.getStringWidth(this.text) + 10;
-		var y1 = this.y - (9 / 2);
-		var y2 = y1 + 19;
+		if (RenderLib.getStringWidth("eeeeeee") < RenderLib.getStringWidth(this.text)) {
+			var x1 = this.x - (RenderLib.getStringWidth(this.text) / 2) - 5;
+			var x2 = x1 + RenderLib.getStringWidth(this.text) + 10;
+			var y1 = this.y - (9 / 2);
+			var y2 = y1 + 19;
+		} else {
+			var x1 = this.x - (RenderLib.getStringWidth("eeeeeee") / 2) - 5;
+			var x2 = x1 + RenderLib.getStringWidth("eeeeeee") + 10;
+			var y1 = this.y - (9 / 2);
+			var y2 = y1 + 19;
+		}
 
 		if (this.mouseX > x1 && this.mouseX < x2 && this.mouseY > y1 && this.mouseY < y2) {
 			this.hovered = true;
