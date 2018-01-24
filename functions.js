@@ -19,6 +19,10 @@ function xphChat(text) {
 	return ChatLib.chat(text);
 }
 
+function removeCommas(number) {
+	return parseInt(number.replace(/,/g, ''));
+}
+
 //Settings Tools - Written by SylentButDedly
 
 function xphSaveSettings(json, fileLocaton, fileName) {
