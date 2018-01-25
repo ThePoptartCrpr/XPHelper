@@ -76,7 +76,6 @@ function xphOpenGui() {
 	xphCurrentMenu = xphMainMenu;
 
 	xphGui.open();
-	ChatLib.chat(JSON.stringify(xphSettings));
 }
 
 function xphSaveSettings() {
