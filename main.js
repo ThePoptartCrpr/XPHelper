@@ -5,6 +5,9 @@ var xphSettings = {
 		testVar: "e",
 		teeest: "asdf"
 	},
+	gui: {
+		bgfadein: true
+	},
 	deliveryman: {
 		autoOpen: true,
 		warnOnSwitch: true

@@ -10,12 +10,15 @@ var titleWidth;
 
 var xphCurrentMenu;
 
+var bgalpha;
+
 xphGui.registerClicked("xphGuiClicked");
 TriggerRegister.registerStep("xphGuiStep");
 xphGui.registerDraw("xphGuiDraw");
 
 function xphOpenGui() {
 
+	xphGuiSettingsMenu = new xphGuiMenu("&eGUI Settings");
 	xphDeliveryManMenu = new xphGuiMenu("&6Delivery Man Settings");
 
 	xphSettingsMenu = new xphGuiMenu("&bSettings");
@@ -26,10 +29,13 @@ function xphOpenGui() {
 
 	xphComingSoonMenu = new xphGuiMenu("&cComing soon!");
 
+	xphBgFadeIntoggle = new xphOnOffToggleSelector("Fade in the GUI background", "xphSettings.gui.bgfadein");
+
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
 	xphDeliveryWarnToggle = new xphOnOffToggleSelector("Warning if you haven't claimed daily rewards when you switch lobbies", "xphSettings.deliveryman.warnOnSwitch");
 	// xphTestSetting = new xphColorSelector("Test", "xphSettings.testing.testVar");
 
+	xphGuiSettingsButton = new xphButton("GUI", RenderLib.color(255, 255, 85, 150), RenderLib.YELLOW, RenderLib.WHITE, xphGuiSettingsMenu);
 	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.GOLD, RenderLib.WHITE, xphDeliveryManMenu);
 	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphSettingsMenu);
 	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.GREEN, RenderLib.WHITE, xphDailyStatsMenu);
@@ -49,8 +55,12 @@ function xphOpenGui() {
 	xphMainMenu.addSetting(xphGoalsButton);
 	xphMainMenu.addSetting(xphQuestsButton);
 
+	xphSettingsMenu.addSetting(xphGuiSettingsButton);
 	xphSettingsMenu.addSetting(xphDeliveryManSettingsButton);
 	xphSettingsMenu.addSetting(xphMainMenuBackButton);
+
+	xphGuiSettingsMenu.addSetting(xphBgFadeIntoggle);
+	xphGuiSettingsMenu.addSetting(xphSettingsMenuBackButton);
 
 	xphDeliveryManMenu.addSetting(xphDeliveryOpenToggle);
 	xphDeliveryManMenu.addSetting(xphDeliveryWarnToggle);
@@ -103,6 +113,16 @@ function xphGuiClicked(mouseX, mouseY, button) {
 }
 
 function xphGuiStep() {
+	if (xphSettings.gui.bgfadein) {
+		if (xphGui.isOpen()) {
+			if (bgalpha < 150) {
+				bgalpha += 5;
+			}
+		} else {
+			bgalpha = 50;
+		}
+	}
+
   if (xphGui.isOpen() && xphCurrentMenu.getType() == "Settings") {
 		xphCurrentMenu.update();
   }
@@ -117,7 +137,11 @@ function xphGuiDraw(mouseX, mouseY) {
   var y = 20 - xphScrolled;
   var x = RenderLib.getRenderWidth() / 2;
 
-  RenderLib.drawRectangle(0xa0000000, 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
+	if (xphSettings.gui.bgfadein) {
+		RenderLib.drawRectangle(RenderLib.color(0, 0, 0, bgalpha), 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
+	} else {
+		RenderLib.drawRectangle(RenderLib.color(0, 0, 0, 150), 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
+	}
 
 	xphCurrentMenu.draw(x, y, mouseX, mouseY);
 
