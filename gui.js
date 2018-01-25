@@ -57,12 +57,17 @@ function xphOpenGui() {
 	xphDeliveryManMenu.addSetting(xphSettingsMenuBackButton);
 
 	xphDailyStatsMenu.addButton(xphTotalStatsButton);
-	xphDailyStatsMenu.addString("&aTotal XP gained today: &1", xphDailyStats.xp);
+	xphDailyStatsMenu.addString("&aTotal XP gained today: &9", xphDailyStats.xp);
+	xphDailyStatsMenu.addString("&eTotal challenges completed today: &b", xphDailyStats.challenges);
+	xphDailyStatsMenu.addString("&eChallenges left today: &b", xphDailyStats.challengesleft);
+	xphDailyStatsMenu.addString("&aTotal quests completed today: &e", xphDailyStats.quests);
 	xphDailyStatsMenu.addString("&aTotal coins gained today: &6", xphDailyStats.coins);
 	xphDailyStatsMenu.addButton(xphMainMenuBackButton);
 
 	xphTotalStatsMenu.addButton(xphDailyStatsButton);
-	xphTotalStatsMenu.addString("&aTotal XP gained: &1", xphTotalStats.xp);
+	xphTotalStatsMenu.addString("&aTotal XP gained: &9", xphTotalStats.xp);
+	xphTotalStatsMenu.addString("&eTotal challenges completed: &b", xphTotalStats.challenges);
+	xphTotalStatsMenu.addString("&aTotal quests completed: &e", xphTotalStats.quests);
 	xphTotalStatsMenu.addString("&aTotal coins gained: &6", xphTotalStats.coins);
 	xphTotalStatsMenu.addButton(xphMainMenuBackButton);
 
