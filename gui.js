@@ -79,6 +79,10 @@ function xphOpenGui() {
 	xphTotalStatsMenu.addString("&eTotal challenges completed: &b", xphTotalStats.challenges);
 	xphTotalStatsMenu.addString("&aTotal quests completed: &e", xphTotalStats.quests);
 	xphTotalStatsMenu.addString("&aTotal coins gained: &6", xphTotalStats.coins);
+	xphTotalStatsMenu.addString("", "");
+	xphTotalStatsMenu.addString("&aTotal votes: &e", xphTotalStats.votes);
+	xphTotalStatsMenu.addString("&aTotal reward cards claimed: &e", xphTotalStats.rewardCards);
+	xphTotalStatsMenu.addString("&aTotal daily rewards claimed: &e", xphTotalStats.dailyRewards);
 	xphTotalStatsMenu.addButton(xphMainMenuBackButton);
 
 	xphComingSoonMenu.addSetting(xphMainMenuBackButton);

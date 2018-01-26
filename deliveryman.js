@@ -41,10 +41,12 @@ function xphDailyClaimed() {
 	xphDailyStats.coins += 3000;
 	xphTotalStats.xp += 2000;
 	xphTotalStats.coins += 3000;
+	xphTotalStats.dailyRewards++;
 }
 
 function xphCardClaimed(URL) {
 	xphDailyStats.card = true;
+	xphTotalStats.rewardCards++;
 }
 
 function xphVoteClaimed() {
@@ -53,6 +55,7 @@ function xphVoteClaimed() {
 	xphDailyStats.coins += 3000;
 	xphTotalStats.xp += 5000;
 	xphTotalStats.coins += 3000;
+	xphTotalStats.votes++;
 }
 
 // Warning
