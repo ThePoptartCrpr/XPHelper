@@ -25,5 +25,5 @@ function xphChallengeComplete(challenge, xp, challengesleft) {
   xphTotalStats.challenges++;
   xphTotalStats.xp += removeCommas(xp);
 
-  ChatLib.chat("&aTotal XP gained today: &9" + xphDailyStats.xp + "\n&etotal challenges completed today: &b" + xphDailyStats.challenges);
+  ChatLib.chat("&aTotal XP gained today: &9" + xphDailyStats.xp + "\n&eTotal challenges completed today: &b" + xphDailyStats.challenges);
 }

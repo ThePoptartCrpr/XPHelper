@@ -18,8 +18,8 @@ TriggerRegister.registerChat("xphVoteClaimed").setChatCriteria("&6Thanks for sup
 
 TriggerRegister.registerWorldLoad("xphLobbySwitchWarn");
 
-TriggerRegister.registerCommand("xphDismissWarn", "xphdismisswarn", "/xphdismisswarn");
-TriggerRegister.registerCommand("xphUndoDismiss", "xphundodismiss", "/xphundodismiss");
+TriggerRegister.registerCommand("xphDismissWarn").setCommandName("xphdismisswarn");
+TriggerRegister.registerCommand("xphUndoDismiss").setCommandName("xphundodismiss");
 
 function openVoteLink(URL) {
 	if (xphSettings.deliveryman.autoOpen == true) {
@@ -60,7 +60,7 @@ function xphVoteClaimed() {
 
 // Warning
 function xphLobbySwitchWarn() {
-	if ((xphSettings.deliveryman.warnOnSwitch == true) && (xphDailyStats.dismissed == false) && (serverIP.indexOf("hypixel") !== -1)) {
+	if ((xphSettings.deliveryman.warnOnSwitch == true) && (xphDailyStats.dismissed == false) && (Server.getIP().indexOf("hypixel") !== -1)) {
 		if ((xphDailyStats.voted == false) || (xphDailyStats.daily == false) || (xphDailyStats.card == false)) {
 			new Thread(function() {
 				Thread.sleep(2000);

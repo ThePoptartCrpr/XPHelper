@@ -1,5 +1,5 @@
-TriggerRegister.registerCommand("command_xph", "xph", "/xph");
-TriggerRegister.registerCommand("command_xphtest", "xphtest", "/xphtest");
+TriggerRegister.registerCommand("command_xph").setCommandName("xph");
+TriggerRegister.registerCommand("command_xphtest").setCommandName("xphtest");
 
 var xphSettingsClickable = new Message(ChatLib.clickable("&b[SETTINGS]", "run_command", "/xph gui", "&bManage XPHelper settings"));
 
