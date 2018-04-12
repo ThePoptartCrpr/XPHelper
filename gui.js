@@ -34,16 +34,16 @@ function xphOpenGui() {
 	xphDeliveryOpenToggle = new xphOnOffToggleSelector("Automatically open Delivery Man links", "xphSettings.deliveryman.autoOpen");
 	xphDeliveryWarnToggle = new xphOnOffToggleSelector("Warning if you haven't claimed daily rewards when you switch lobbies", "xphSettings.deliveryman.warnOnSwitch");
 
-	xphGuiSettingsButton = new xphButton("GUI", RenderLib.color(255, 255, 85, 150), RenderLib.YELLOW, RenderLib.WHITE, xphGuiSettingsMenu);
-	xphDeliveryManSettingsButton = new xphButton("Delivery Man", RenderLib.color(255, 170, 0, 150), RenderLib.GOLD, RenderLib.WHITE, xphDeliveryManMenu);
-	xphSettingsButton = new xphButton("Settings", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphSettingsMenu);
-	xphStatsButton = new xphButton("Stats", RenderLib.color(85, 255, 85, 150), RenderLib.GREEN, RenderLib.WHITE, xphDailyStatsMenu);
-	xphInfoButton = new xphButton("Info", RenderLib.color(255, 170, 0, 150), RenderLib.GOLD, RenderLib.WHITE, xphComingSoonMenu);
-	xphGoalsButton = new xphButton("Goals", RenderLib.color(255, 85, 85, 150), RenderLib.RED, RenderLib.WHITE, xphComingSoonMenu);
-	xphQuestsButton = new xphButton("Quests", RenderLib.color(0, 170, 0, 150), RenderLib.DARK_GREEN, RenderLib.WHITE, xphComingSoonMenu);
+	xphGuiSettingsButton = new xphButton("GUI", Renderer.color(255, 255, 85, 150), Renderer.YELLOW, Renderer.WHITE, xphGuiSettingsMenu);
+	xphDeliveryManSettingsButton = new xphButton("Delivery Man", Renderer.color(255, 170, 0, 150), Renderer.GOLD, Renderer.WHITE, xphDeliveryManMenu);
+	xphSettingsButton = new xphButton("Settings", Renderer.color(85, 255, 255, 150), Renderer.AQUA, Renderer.WHITE, xphSettingsMenu);
+	xphStatsButton = new xphButton("Stats", Renderer.color(85, 255, 85, 150), Renderer.GREEN, Renderer.WHITE, xphDailyStatsMenu);
+	xphInfoButton = new xphButton("Info", Renderer.color(255, 170, 0, 150), Renderer.GOLD, Renderer.WHITE, xphComingSoonMenu);
+	xphGoalsButton = new xphButton("Goals", Renderer.color(255, 85, 85, 150), Renderer.RED, Renderer.WHITE, xphComingSoonMenu);
+	xphQuestsButton = new xphButton("Quests", Renderer.color(0, 170, 0, 150), Renderer.DARK_GREEN, Renderer.WHITE, xphComingSoonMenu);
 
-	xphTotalStatsButton = new xphButton("Lifetime Stats", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphTotalStatsMenu);
-	xphDailyStatsButton = new xphButton("Daily Stats", RenderLib.color(85, 255, 255, 150), RenderLib.AQUA, RenderLib.WHITE, xphDailyStatsMenu);
+	xphTotalStatsButton = new xphButton("Lifetime Stats", Renderer.color(85, 255, 255, 150), Renderer.AQUA, Renderer.WHITE, xphTotalStatsMenu);
+	xphDailyStatsButton = new xphButton("Daily Stats", Renderer.color(85, 255, 255, 150), Renderer.AQUA, Renderer.WHITE, xphDailyStatsMenu);
 
 	xphMainMenuBackButton = new xphBackButton(xphMainMenu);
 	xphSettingsMenuBackButton = new xphBackButton(xphSettingsMenu);
@@ -110,8 +110,8 @@ function xphGuiClicked(mouseX, mouseY, button) {
 		xphScrolled = 0;
 	}
 
-	if (xphScrolled > 270 - RenderLib.getRenderHeight()) {
-		xphScrolled = 270 - RenderLib.getRenderHeight();
+	if (xphScrolled > 270 - Renderer.screen.getHeight()) {
+		xphScrolled = 270 - Renderer.screen.getHeight();
 	}
 }
 
@@ -133,17 +133,17 @@ function xphGuiStep() {
 
 function xphGuiDraw(mouseX, mouseY) {
 
-  if (RenderLib.getRenderHeight() > 300) {
+  if (Renderer.screen.getHeight() > 300) {
 	  xphScrolled = 0;
   }
 
   var y = 20 - xphScrolled;
-  var x = RenderLib.getRenderWidth() / 2;
+  var x = Renderer.screen.getWidth() / 2;
 
 	if (xphSettings.gui.bgfadein) {
-		RenderLib.drawRectangle(RenderLib.color(0, 0, 0, bgalpha), 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
+		Renderer.drawRect(Renderer.color(0, 0, 0, bgalpha), 0, 0, Renderer.screen.getWidth(), Renderer.screen.getHeight());
 	} else {
-		RenderLib.drawRectangle(RenderLib.color(0, 0, 0, 150), 0, 0, RenderLib.getRenderWidth(), RenderLib.getRenderHeight());
+		Renderer.drawRect(Renderer.color(0, 0, 0, 150), 0, 0, Renderer.screen.getWidth(), Renderer.screen.getHeight());
 	}
 
 	xphCurrentMenu.draw(x, y, mouseX, mouseY);
@@ -190,13 +190,12 @@ function xphGuiMenu(title) {
 
 	this.draw = function(x, y, mouseX, mouseY) {
 
-		titleWidth = RenderLib.getStringWidth(ChatLib.removeFormatting(this.title));
+		titleWidth = Renderer.getStringWidth(ChatLib.removeFormatting(this.title));
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 		ChatLib.addColor(this.title),
 		x - titleWidth / 2,
-	    y,
-	    0xffffffff
+	    y
 	  );
 
 		y += 30;
@@ -240,11 +239,10 @@ function xphStatsMenu(title) {
 
 	this.draw = function(x, y, mouseX, mouseY) {
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 		ChatLib.addColor(this.title),
-		x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.title)) / 2,
-	    y,
-	    0xffffffff
+		x - Renderer.getStringWidth(ChatLib.removeFormatting(this.title)) / 2,
+	    y
 	  );
 
 		y += 30;
@@ -255,11 +253,10 @@ function xphStatsMenu(title) {
 				this.strings[i].draw(x, y, mouseX, mouseY);
 				y += 30;
 			} else {
-				RenderLib.drawStringWithShadow(
+				Renderer.drawStringWithShadow(
 				ChatLib.addColor(this.strings[i]),
-				x - RenderLib.getStringWidth(ChatLib.removeFormatting(this.strings[i])) / 2,
-					y,
-					0xffffffff
+				x - Renderer.getStringWidth(ChatLib.removeFormatting(this.strings[i])) / 2,
+					y
 				);
 				y += 15;
 			}
@@ -318,20 +315,19 @@ function xphOnOffToggleSelector(text, variable) {
 
 		this.hover();
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 			text,
-			this.x - RenderLib.getStringWidth(text) / 2,
-			y,
-			0xffffffff
+			this.x - Renderer.getStringWidth(text) / 2,
+			y
 		);
 
-		var greenColorDeselected = RenderLib.color(85, 255, 85, 100);
-		var greenColorHovered = RenderLib.color(85, 255, 85, 150);
-		var greenColorSelected = RenderLib.GREEN;
+		var greenColorDeselected = Renderer.color(85, 255, 85, 100);
+		var greenColorHovered = Renderer.color(85, 255, 85, 150);
+		var greenColorSelected = Renderer.GREEN;
 
-		var redColorDeselected = RenderLib.color(255, 85, 85, 100);
-		var redColorHovered = RenderLib.color(255, 85, 85, 150);
-		var redColorSelected = RenderLib.RED;
+		var redColorDeselected = Renderer.color(255, 85, 85, 100);
+		var redColorHovered = Renderer.color(255, 85, 85, 150);
+		var redColorSelected = Renderer.RED;
 
 		var greenColor;
 		var redColor;
@@ -353,51 +349,49 @@ function xphOnOffToggleSelector(text, variable) {
 		}
 
 		if (this.selected == true) {
-			RenderLib.drawRectangle(
-				RenderLib.WHITE,
-				this.x - (RenderLib.getStringWidth("Off") / 2) - 25,
+			Renderer.drawRect(
+				Renderer.WHITE,
+				this.x - (Renderer.getStringWidth("Off") / 2) - 25,
 				this.y + 19 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 12,
+				Renderer.getStringWidth("Off") + 12,
 				21
 			)
 		} else {
-			RenderLib.drawRectangle(
-				RenderLib.WHITE,
-				this.x - (RenderLib.getStringWidth("Off") / 2) + 15,
+			Renderer.drawRect(
+				Renderer.WHITE,
+				this.x - (Renderer.getStringWidth("Off") / 2) + 15,
 				this.y + 19 - (9 / 2),
-				RenderLib.getStringWidth("Off") + 12,
+				Renderer.getStringWidth("Off") + 12,
 				21
 			)
 		}
 
-		RenderLib.drawRectangle(
+		Renderer.drawRect(
 			greenColor,
-			this.x - (RenderLib.getStringWidth("Off") / 2) - 24,
+			this.x - (Renderer.getStringWidth("Off") / 2) - 24,
 			this.y + 20 - (9 / 2),
-			RenderLib.getStringWidth("Off") + 10,
+			Renderer.getStringWidth("Off") + 10,
 			19
 		)
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 			"On",
-			this.x - (RenderLib.getStringWidth("On") / 2) - 19,
-			this.y + 20,
-			0xffffffff
+			this.x - (Renderer.getStringWidth("On") / 2) - 19,
+			this.y + 20
 		)
 
-		RenderLib.drawRectangle(
+		Renderer.drawRect(
 			redColor,
-			this.x - (RenderLib.getStringWidth("Off") / 2) + 16,
+			this.x - (Renderer.getStringWidth("Off") / 2) + 16,
 			this.y + 20 - (9 / 2),
-			RenderLib.getStringWidth("Off") + 10,
+			Renderer.getStringWidth("Off") + 10,
 			19
 		)
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 			"Off",
-			this.x - (RenderLib.getStringWidth("Off") / 2) + 21,
-			this.y + 20,
-			0xffffffff
+			this.x - (Renderer.getStringWidth("Off") / 2) + 21,
+			this.y + 20
 		)
 
 	}
@@ -405,10 +399,10 @@ function xphOnOffToggleSelector(text, variable) {
 	this.hover = function() {
 		var isHovered = false;
 
-		var truex1 = this.x - (RenderLib.getStringWidth("Off") / 2) - 24;
-		var truex2 = truex1 + RenderLib.getStringWidth("Off") + 10;
-		var falsex1 = this.x - (RenderLib.getStringWidth("Off") / 2) + 16;
-		var falsex2 = falsex1 + RenderLib.getStringWidth("Off") + 10;
+		var truex1 = this.x - (Renderer.getStringWidth("Off") / 2) - 24;
+		var truex2 = truex1 + Renderer.getStringWidth("Off") + 10;
+		var falsex1 = this.x - (Renderer.getStringWidth("Off") / 2) + 16;
+		var falsex2 = falsex1 + Renderer.getStringWidth("Off") + 10;
 		var y1 = this.y + 20 - (9 / 2);
 		var y2 = y1 + 19;
 
@@ -498,16 +492,15 @@ function xphColorSelector(text, variable) {
 
     this.hover();
 
-    RenderLib.drawStringWithShadow(
+    Renderer.drawStringWithShadow(
       text,
-      this.x - RenderLib.getStringWidth(text) / 2,
-      y,
-      0xffffffff
+      this.x - Renderer.getStringWidth(text) / 2,
+      y
     );
 
     for (var i = 0; i < 16; i++) {
-      RenderLib.drawRectangle(
-        RenderLib.getColor(i),
+      Renderer.drawRect(
+        Renderer.getColor(i),
         this.x - 160 + i * 20 + this.xOffsets[i] + Math.abs(this.xOffsets[i] / 2),
         this.y + 10 + Math.abs(this.zOffsets[i] / 2),
         30 - this.zOffsets[i],
@@ -517,10 +510,10 @@ function xphColorSelector(text, variable) {
 
     for (var i = 0; i < 16; i++) {
       if (i == this.selected) {
-        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 40, 34, 2);
-        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 8, 2, 34);
-        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 162 + i * 20, this.y + 8, 34, 2);
-        RenderLib.drawRectangle(RenderLib.WHITE, this.x - 130 + i * 20, this.y + 8, 2, 34);
+        Renderer.drawRect(Renderer.WHITE, this.x - 162 + i * 20, this.y + 40, 34, 2);
+        Renderer.drawRect(Renderer.WHITE, this.x - 162 + i * 20, this.y + 8, 2, 34);
+        Renderer.drawRect(Renderer.WHITE, this.x - 162 + i * 20, this.y + 8, 34, 2);
+        Renderer.drawRect(Renderer.WHITE, this.x - 130 + i * 20, this.y + 8, 2, 34);
       }
     }
   }
@@ -603,29 +596,28 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 			buttonColor = this.color;
 		}
 
-		if (RenderLib.getStringWidth("eeeeeee") < RenderLib.getStringWidth(this.text)) {
-			RenderLib.drawRectangle(
+		if (Renderer.getStringWidth("eeeeeee") < Renderer.getStringWidth(this.text)) {
+			Renderer.drawRect(
 				buttonColor,
-				this.x - (RenderLib.getStringWidth(this.text) / 2) - 5,
+				this.x - (Renderer.getStringWidth(this.text) / 2) - 5,
 				this.y - (9 / 2),
-				RenderLib.getStringWidth(this.text) + 10,
+				Renderer.getStringWidth(this.text) + 10,
 				19
 			);
 		} else {
-			RenderLib.drawRectangle(
+			Renderer.drawRect(
 				buttonColor,
-				this.x - (RenderLib.getStringWidth("eeeeeee") / 2) - 5,
+				this.x - (Renderer.getStringWidth("eeeeeee") / 2) - 5,
 				this.y - (9 / 2),
-				RenderLib.getStringWidth("eeeeeee") + 10,
+				Renderer.getStringWidth("eeeeeee") + 10,
 				19
 			);
 		}
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 			this.text,
-			this.x - RenderLib.getStringWidth(text) / 2,
-			y,
-			this.textcolor
+			this.x - Renderer.getStringWidth(text) / 2,
+			y
 		);
 
 	}
@@ -633,14 +625,14 @@ function xphButton(text, color, hovercolor, textcolor, menu) {
 	this.hover = function() {
 		this.hovered = false;
 
-		if (RenderLib.getStringWidth("eeeeeee") < RenderLib.getStringWidth(this.text)) {
-			var x1 = this.x - (RenderLib.getStringWidth(this.text) / 2) - 5;
-			var x2 = x1 + RenderLib.getStringWidth(this.text) + 10;
+		if (Renderer.getStringWidth("eeeeeee") < Renderer.getStringWidth(this.text)) {
+			var x1 = this.x - (Renderer.getStringWidth(this.text) / 2) - 5;
+			var x2 = x1 + Renderer.getStringWidth(this.text) + 10;
 			var y1 = this.y - (9 / 2);
 			var y2 = y1 + 19;
 		} else {
-			var x1 = this.x - (RenderLib.getStringWidth("eeeeeee") / 2) - 5;
-			var x2 = x1 + RenderLib.getStringWidth("eeeeeee") + 10;
+			var x1 = this.x - (Renderer.getStringWidth("eeeeeee") / 2) - 5;
+			var x2 = x1 + Renderer.getStringWidth("eeeeeee") + 10;
 			var y1 = this.y - (9 / 2);
 			var y2 = y1 + 19;
 		}
@@ -671,9 +663,9 @@ function xphBackButton(menu) {
 
 	this.hovered = false;
 
-	this.color = RenderLib.color(255, 85, 85, 150);
-	this.hovercolor = RenderLib.color(255, 85, 85, 255);
-	this.textcolor = RenderLib.WHITE;
+	this.color = Renderer.color(255, 85, 85, 150);
+	this.hovercolor = Renderer.color(255, 85, 85, 255);
+	this.textcolor = Renderer.WHITE;
 
 	this.menu = menu;
 
@@ -697,19 +689,18 @@ function xphBackButton(menu) {
 			buttonColor = this.color;
 		}
 
-		RenderLib.drawRectangle(
+		Renderer.drawRect(
 			buttonColor,
-			this.x - (RenderLib.getStringWidth("Back") / 2) - 5,
+			this.x - (Renderer.getStringWidth("Back") / 2) - 5,
 			this.y - (9 / 2),
-			RenderLib.getStringWidth("Back") + 10,
+			Renderer.getStringWidth("Back") + 10,
 			19
 		);
 
-		RenderLib.drawStringWithShadow(
+		Renderer.drawStringWithShadow(
 			this.text,
-			this.x - RenderLib.getStringWidth("Back") / 2,
-			y,
-			this.textcolor
+			this.x - Renderer.getStringWidth("Back") / 2,
+			y
 		);
 
 	}
@@ -717,8 +708,8 @@ function xphBackButton(menu) {
 	this.hover = function() {
 		this.hovered = false;
 
-		var x1 = this.x - (RenderLib.getStringWidth("Back") / 2) - 5;
-		var x2 = x1 + RenderLib.getStringWidth("Back") + 10;
+		var x1 = this.x - (Renderer.getStringWidth("Back") / 2) - 5;
+		var x2 = x1 + Renderer.getStringWidth("Back") + 10;
 		var y1 = this.y - (9 / 2);
 		var y2 = y1 + 19;
 
