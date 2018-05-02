@@ -81,10 +81,10 @@ function xphLobbySwitchWarn() {
 		  		ChatLib.chat("&cYou haven\'t voted yet today!");
 				}
 				xphChat();
-				var warpClickable = new Message(ChatLib.clickable("&e[WARP]", "run_command", "/delivery", "&aWarp to the delivery man"));
+				var warpClickable = new Message(new TextComponent("&e[WARP]").setClick("run_command", "/delivery").setHoverValue("&aWarp to the delivery man"));
 				ChatLib.chat(warpClickable);
 				xphChat();
-				var dismissClickable = new Message(ChatLib.clickable("&c[Dismiss]", "run_command", "/xphdismisswarn", "&cDismiss this warning"));
+				var dismissClickable = new Message(new TextComponent("&c[Dismiss]").setClick("run_command", "/xphdismisswarn").setHoverValue("&cDismiss this warning"));
 				ChatLib.chat(dismissClickable);
 				ChatLib.chat(xphBreak);
 			}).start();
